@@ -74,6 +74,7 @@ int main(void)
     UF uf(5);
     uf.Union(0, 1);
     uf.Union(1, 2);
+    uf.Union(2,3);
     cout << boolalpha << uf.Connected(0, 2) << endl;
     cout << uf.Count() << endl;
 }
