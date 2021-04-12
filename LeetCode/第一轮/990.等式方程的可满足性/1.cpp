@@ -3,14 +3,14 @@
 
 using namespace std;
 
-class UnionFind 
+class UnionFind
 {
 private:
     int *parent;
     int *size;
 
 public:
-    UnionFind (int n)
+    UnionFind(int n)
     {
         parent = new int(n);
         size = new int(n);
@@ -64,8 +64,8 @@ bool equationsPossible(vector<string> &equations)
     if (equations.size() < 2)
         return true;
 
-    UnionFind  uf(26);
-    
+    UnionFind uf(26);
+
     for (string equ : equations)
     {
         if (equ.at(0) == '=')
