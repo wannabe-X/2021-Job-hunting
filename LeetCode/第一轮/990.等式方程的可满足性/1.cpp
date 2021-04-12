@@ -61,16 +61,12 @@ public:
 
 bool equationsPossible(vector<string> &equations)
 {
-    if (equations.size() < 2)
-        return true;
-
     UnionFind uf(26);
 
     for (string equ : equations)
     {
-        if (equ.at(0) == '=')
+        if (equ.at(1) == '=')
         {
-            cout << 2 << endl;
             char x = equ.at(0), y = equ.at(3);
             uf.Union(x - 'a', y - 'a');
         }
@@ -85,7 +81,6 @@ bool equationsPossible(vector<string> &equations)
                 return false;
         }
     }
-
     return true;
 }
 
