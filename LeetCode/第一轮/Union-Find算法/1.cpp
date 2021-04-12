@@ -6,16 +6,16 @@ using namespace std;
 class UF
 {
 private:
-    int count_;
-    vector<int> parent;
-    vector<int> size;
+    int count;
+    int *parent;
+    int *size;
 
 public:
     UF(int n)
     {
-        this->count_ = n;
-        vector<int> parent(n);
-        vector<int> size(n);
+        this->count = n;
+        parent = new int(n);
+        size = new int(n);
         for (int i = 0; i < n; i++)
         {
             parent[i] = i;
@@ -23,7 +23,7 @@ public:
         }
     }
 
-    int find_(int x)
+    int Find(int x)
     {
         while (x != parent[x])
         {
@@ -33,10 +33,10 @@ public:
         return x;
     }
 
-    void union_(int p, int q)
+    void Union(int p, int q)
     {
-        int rootP = find_(p);
-        int rootQ = find_(q);
+        int rootP = Find(p);
+        int rootQ = Find(q);
         if (rootP == rootQ)
             return;
 
@@ -50,26 +50,28 @@ public:
             parent[rootP] = rootQ;
             size[rootQ] += size[rootP];
         }
-        count_--;
+
+        count--;
     }
 
-    bool connected(int p, int q)
+    bool Connected(int p, int q)
     {
-        int rootP = find_(p);
-        int rootQ = find_(q);
+        int rootP = Find(p);
+        int rootQ = Find(q);
         return rootP == rootQ;
     }
 
-    int count()
+    int Count()
     {
-        return count_;
+        return count;
     }
 };
 
 int main(void)
 {
     UF uf(5);
-    uf.connected(0, 1);
-    uf.connected(1, 2);
-    cout << uf.count() << endl;
+    uf.Union(0, 1);
+    uf.Union(1, 2);
+    cout << boolalpha << uf.Connected(0, 2) << endl;
+    cout << uf.Count() << endl;
 }
