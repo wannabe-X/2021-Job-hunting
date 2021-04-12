@@ -1,13 +1,14 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
+using namespace std; 
 
 //
 int n, m;
 
 void dfs(vector<vector<char>> &board, int x, int y)
 {
+    // 触发边界条件
     if (x < 0 || x >= n || y < 0 || y >= m || board[x][y] != 'O')
     {
         return;
