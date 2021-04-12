@@ -37,6 +37,7 @@ public:
     {
         int rootP = Find(p);
         int rootQ = Find(q);
+
         if (rootP == rootQ)
             return;
 
@@ -65,6 +66,7 @@ public:
     {
         return count;
     }
+
 };
 
 int main(void)
