@@ -69,11 +69,11 @@ vector<bool> isSubsequence(vector<string> &s, string t)
 
 int main(void)
 {
-    vector<string> s = {"abc", "abcd", "aad", "xyz"};
+    vector<string> s = {"abc", "abcd", "aad", "xyze"};
     string t = "abcdefg";
 
     vector<bool> ans = isSubsequence(s, t);
-    
+
     for (int i = 0; i < ans.size(); i++)
     {
         cout << boolalpha << ans[i] << ' ';
