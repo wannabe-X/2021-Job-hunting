@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// �ⷨ1 �ݹ鷨
+// 解法1 递归法
 int coinChange(vector<int>& coins, int amount) {
 	if(amount==0) return 0;
 	if(amount<0) return -1;

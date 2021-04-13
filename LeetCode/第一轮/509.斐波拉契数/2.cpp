@@ -3,12 +3,12 @@
 
 using namespace std;
 
-// 解法3 带有备忘录的递归
+// 瑙ｆ硶3 甯︽湁澶囧繕褰曠殑閫掑綊
 int memorandum(vector<int> &memo, int n){
 	if(n<=2) return 1;
-	// 剪枝 避免重复运算，降低时间复杂度
+	// 鍓灊 閬垮厤閲嶅杩愮畻锛岄檷浣庢椂闂村鏉傚害
 	if(memo[n] != 0) return memo[n];
-	// 递归计算斐波拉契数列
+	// 閫掑綊璁＄畻鏂愭尝鎷夊鏁板垪
 	memo[n] = memorandum(memo, n-1) + memorandum(memo, n-2);
 	return memo[n];
 }

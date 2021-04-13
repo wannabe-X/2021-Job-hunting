@@ -11,7 +11,7 @@ string longestCommonPrefix(vector<string> &strs)
         char c = strs[0][i];
         for (int j = 1; j < strs.size(); j++)
         {
-            // ²»¾ßÓÐ¹«¹²Ç°×ºµÄÇé¿ö
+            // ä¸å…·æœ‰å…¬å…±å‰ç¼€çš„æƒ…å†µ
             if (i == strs[j].size() || strs[j][i] != c)
                 return strs[0].substr(0, i);
         }

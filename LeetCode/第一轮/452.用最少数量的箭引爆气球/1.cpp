@@ -13,10 +13,10 @@ int eraseOverlapIntervals(vector<vector<int>> &intervals)
 {
     if (intervals.size() == 0)
         return 0;
-    // 先按照结束时间end排序
+    // 鍏堟寜鐓х粨鏉熸椂闂磂nd鎺掑簭
     sort(intervals.begin(), intervals.end(), cmp);
 
-    // 按照end结束时间剔除
+    // 鎸夌収end缁撴潫鏃堕棿鍓旈櫎
     int x_end = intervals[0][1], count = 1;
     for (int i = 1; i < intervals.size(); i++)
     {

@@ -7,7 +7,7 @@ using namespace std;
 
 vector<int> findAnagrams(string s, string t)
 {
-    // ÓÃÊı×é¼ÇÂ¼´ğ°¸£¬Êı×éµÄÖØÒªĞÔ
+    // ç”¨æ•°ç»„è®°å½•ç­”æ¡ˆï¼Œæ•°ç»„çš„é‡è¦æ€§
     vector<int> res;
     int left = 0, right = 0;
     unordered_map<char, int> needs;
@@ -29,8 +29,8 @@ vector<int> findAnagrams(string s, string t)
 
         while (match == needs.size())
         {
-            // Èç¹û window µÄ´óĞ¡ºÏÊÊ
-            // ¾Í°ÑÆğÊ¼Ë÷Òı left ¼ÓÈë½á¹û
+            // å¦‚æœ window çš„å¤§å°åˆé€‚
+            // å°±æŠŠèµ·å§‹ç´¢å¼• left åŠ å…¥ç»“æœ
             if (right - left == needs.size())
             {
                 res.push_back(left);

@@ -11,21 +11,21 @@ vector<vector<int>> merge(vector<vector<int>> &intervals)
 
     vector<vector<int>> res;
 
-    // °´ÕÕ¸÷Çø¼ä[start,end]µÄstartÅÅĞò£¬´ÓĞ¡µ½´ó
+    // æŒ‰ç…§å„åŒºé—´[start,end]çš„startæ’åºï¼Œä»å°åˆ°å¤§
     sort(intervals.begin(), intervals.end());
-    // °Ñstart×îĞ¡¶ÔÓ¦µÄÇø¼ä·Åµ½resÖĞ
+    // æŠŠstartæœ€å°å¯¹åº”çš„åŒºé—´æ”¾åˆ°resä¸­
     res.push_back(intervals[0]);
 
-    for (int i = 1; i < n; i++) // ×¢ÒâiÊÇ´Ó1¿ªÊ¼µÄ
+    for (int i = 1; i < n; i++) // æ³¨æ„iæ˜¯ä»1å¼€å§‹çš„
     {
         vector<int> curvec = intervals[i];
-        if (curvec[0] <= res.back()[1]) // ¿ÉÒÔºÏ²¢Çø¼äµÄÇé¿ö£¬±È½ÏÇ°Ò»¸öÇø¼äµÄendºÍÏÂÒ»¸öÇø¼ästartµÄ´óĞ¡
+        if (curvec[0] <= res.back()[1]) // å¯ä»¥åˆå¹¶åŒºé—´çš„æƒ…å†µï¼Œæ¯”è¾ƒå‰ä¸€ä¸ªåŒºé—´çš„endå’Œä¸‹ä¸€ä¸ªåŒºé—´startçš„å¤§å°
         {
-            // ºÏ²¢ºóµÄÇø¼äµÄendÓ¦¸ÃÊÇÇ°Ò»¸öÇø¼äµÄendºÍºóÒ»¸öÇø¼äµÄendµÄ×î´óÖµ
+            // åˆå¹¶åçš„åŒºé—´çš„endåº”è¯¥æ˜¯å‰ä¸€ä¸ªåŒºé—´çš„endå’Œåä¸€ä¸ªåŒºé—´çš„endçš„æœ€å¤§å€¼
             int max_end = max(res.back()[1], curvec[1]);
             res.back()[1] = max_end;
         }
-        else // ²»¿ÉÒÔºÏ²¢Çø¼äµÄÇé¿ö
+        else // ä¸å¯ä»¥åˆå¹¶åŒºé—´çš„æƒ…å†µ
         {
             res.push_back(curvec);
         }

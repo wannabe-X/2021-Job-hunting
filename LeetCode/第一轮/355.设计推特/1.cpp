@@ -8,8 +8,8 @@ using namespace std;
 
 static int timeStamp = 0;
 
-// ÿ�� Tweet ʵ����Ҫ��¼�Լ��� tweetId �ͷ���ʱ�� time
-// ������Ϊ�����ڵ㣬Ҫ��һ��ָ����һ���ڵ�� next ָ��
+// 每个 Tweet 实例需要记录自己的 tweetId 和发表时间 time
+// 而且作为链表节点，要有一个指向下一个节点的 next 指针
 class Tweet
 {
 private:
@@ -37,9 +37,9 @@ public:
     }
 };
 
-// ���������������ԭ�򣬡���ע����ȡ�ء��͡����ġ�Ӧ���� User ����Ϊ
-// ���ҹ�ע�б��������б�Ҳ�洢�� User ���У�
-// ����ҲӦ�ø� User ���� follow��unfollow �� post �⼸������
+// 根据面向对象的设计原则，「关注」「取关」和「发文」应该是 User 的行为
+// 况且关注列表和推文列表也存储在 User 类中，
+// 所以也应该给 User 添加 follow，unfollow 和 post 这几个方法
 class User
 {
 private:
@@ -49,7 +49,7 @@ public:
     Tweet *head;
     unordered_set<int> followed;
 
-    // Userʵ������Ҫ��ע�Լ���ͷ��㸳��ָ��
+    // User实例首先要关注自己，头结点赋空指针
     User(int userId)
     {
         this->id = userId;
@@ -57,25 +57,25 @@ public:
         followed.insert(id);
     }
 
-    // ��ע����û�
+    // 关注别的用户
     void follow(int userId)
     {
         followed.insert(userId);
     }
 
-    // ȡ����ע����û���ע�⣺����ȡ����ע�Լ�
+    // 取消关注别的用户，注意：不能取消关注自己
     void unfollow(int userId)
     {
         if (userId != this->id)
             followed.erase(userId);
     }
 
-    // ����һ�����Ķ�̬��
+    // 发送一条推文动态，
     void post(int contentId)
     {
         Tweet *twt = new Tweet(contentId, timeStamp);
         timeStamp++;
-        // ��ǰ����ָ��ָ��ͷ��㣬ͷ����ƶ�����ǰ��������
+        // 当前推文指针指向头结点，头结点移动到当前推文上面
         twt->next = head;
         head = twt;
     }
@@ -84,18 +84,18 @@ public:
 class Twitter
 {
 private:
-    // ӳ�佫 userId �� User �����Ӧ����
+    // 映射将 userId 和 User 对象对应起来
     unordered_map<int, User *> userMap;
 
-    // �� c/c++ �У�Ϊ�˽��һЩƵ�����õ�С������������ջ�ռ䣨ջ�ڴ棩������
-    // �ر�������� inline ���η�����ʾΪ��������
+    // 在 c/c++ 中，为了解决一些频繁调用的小函数大量消耗栈空间（栈内存）的问题
+    // 特别的引入了 inline 修饰符，表示为内联函数
     inline bool contain(int id)
     {
         return userMap.find(id) != userMap.end();
     }
 
 public:
-    // clear()�������ڴ�userMap������ɾ������Ԫ�أ��Ӷ�ʹ���С����Ϊ0
+    // clear()函数用于从userMap容器中删除所有元素，从而使其大小保持为0
     Twitter()
     {
         userMap.clear();
@@ -120,15 +120,15 @@ public:
             return a->getTime() < b->getTime();
         };
 
-        // ʵ�ֺϲ� k �������������㷨��Ҫ�õ����ȼ����У�Priority Queue�����������ݽṹ�ǡ�����ѡ�����Ҫ��Ӧ��
-        // ���������Ϊ�����ԶԲ����Ԫ���Զ�����
-        // �����Ԫ�ز������оͱ��ŵ�����ȷ��λ�ã����԰��մ�С���󣨻�Ӵ�С�������ȡ��Ԫ��
+        // 实现合并 k 个有序链表的算法需要用到优先级队列（Priority Queue），这种数据结构是「二叉堆」最重要的应用
+        // 你可以理解为它可以对插入的元素自动排序
+        // 乱序的元素插入其中就被放到了正确的位置，可以按照从小到大（或从大到小）有序地取出元素
         priority_queue<Tweet *, vector<Tweet *>, Compare> q(cmp);
 
-        // ��ȡ��ǰ�û�userId����ע���˵�id�ŵ�һ��
+        // 获取当前用户userId所关注的人的id放到一个
         unordered_set<int> &users = userMap[userId]->followed;
 
-        // �����й�ע�˷�������ͷָ��ŵ�q���ȶ�������
+        // 把所有关注人发的推文头指针放到q优先队列里面
         for (int id : users)
         {
             if (!contain(id))
@@ -175,31 +175,31 @@ int main()
 {
     Twitter twitter;
 
-    // �û�1������һ�������� (�û�id = 1, ����id = 5).
+    // 用户1发送了一条新推文 (用户id = 1, 推文id = 5).
     twitter.postTweet(1, 5);
 
-    // �û�1�Ļ�ȡ����Ӧ������һ���б������а���һ��idΪ5������.
+    // 用户1的获取推文应当返回一个列表，其中包含一个id为5的推文.
     vector<int> twt = twitter.getNewsFeed(1);
     for (int i = 0; i < twt.size(); i++)
         cout << twt[i] << endl;
 
-    // �û�1��ע���û�2.
+    // 用户1关注了用户2.
     twitter.follow(1, 2);
 
-    // �û�2������һ�������� (����id = 6).
+    // 用户2发送了一个新推文 (推文id = 6).
     twitter.postTweet(2, 6);
 
-    // �û�1�Ļ�ȡ����Ӧ������һ���б������а����������ģ�id�ֱ�Ϊ -> [6, 5].
-    // ����id6Ӧ��������id5֮ǰ����Ϊ������5֮���͵�.
+    // 用户1的获取推文应当返回一个列表，其中包含两个推文，id分别为 -> [6, 5].
+    // 推文id6应当在推文id5之前，因为它是在5之后发送的.
     vector<int> twt1 = twitter.getNewsFeed(1);
     for (int i = 0; i < twt1.size(); i++)
         cout << twt1[i] << endl;
 
-    // // �û�1ȡ����ע���û�2.
+    // // 用户1取消关注了用户2.
     twitter.unfollow(1, 2);
 
-    // // �û�1�Ļ�ȡ����Ӧ������һ���б������а���һ��idΪ5������.
-    // // ��Ϊ�û�1�Ѿ����ٹ�ע�û�2.
+    // // 用户1的获取推文应当返回一个列表，其中包含一个id为5的推文.
+    // // 因为用户1已经不再关注用户2.
     vector<int> twt2 = twitter.getNewsFeed(1);
     for (int i = 0; i < twt2.size(); i++)
         cout << twt2[i] << endl;

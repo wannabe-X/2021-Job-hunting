@@ -64,8 +64,8 @@ void solve(vector<vector<char>> &board)
     if (board.size() == 0)
         return;
 
-    int m = board.size();    // ÐÐ
-    int n = board[0].size(); // ÁÐ
+    int m = board.size();    // è¡Œ
+    int n = board[0].size(); // åˆ—
     int dummy = m * n;
 
     UF uf(dummy);

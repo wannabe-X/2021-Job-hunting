@@ -64,11 +64,11 @@ int main(void)
     myqueue.push(1);
     myqueue.push(2);
     myqueue.push(3);
-    cout << "¶ÓÍ·ÔªËØÎª:" << myqueue.peek() << endl;
-    cout << "³ö¶ÓË³ÐòÎª:" << endl;
+    cout << "é˜Ÿå¤´å…ƒç´ ä¸º:" << myqueue.peek() << endl;
+    cout << "å‡ºé˜Ÿé¡ºåºä¸º:" << endl;
     cout << myqueue.pop() << endl;
     cout << myqueue.pop() << endl;
     cout << myqueue.pop() << endl;
-    cout << "¶ÓÁÐÎª¿Õ:" << endl;
+    cout << "é˜Ÿåˆ—ä¸ºç©º:" << endl;
     cout << myqueue.empty() << endl;
 }

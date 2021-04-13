@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// 数组无序 暴力破解
+// 鏁扮粍鏃犲簭 鏆村姏鐮磋В
 int *twoSum(int *nums, int numsSize, int target, int *returnSize)
 {
     int *arr = (int *)malloc(sizeof(int) * 2);

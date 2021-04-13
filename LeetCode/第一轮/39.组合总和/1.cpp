@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// 利用回溯算法
+// 鍒╃敤鍥炴函绠楁硶
 vector<vector<int>> res;
 int sum = 0;
 
@@ -22,15 +22,15 @@ void backtrack(vector<int> &nums, vector<int> &track, int target)
         return;
     }
 
-    // 遍历
+    // 閬嶅巻
     for (int i = 0; i < nums.size(); i++)
     {
-        // 做选择
+        // 鍋氶�夋嫨
         track.push_back(nums[i]);
         sum += nums[i];
-        // 递归
+        // 閫掑綊
         backtrack(nums, track, target);
-        // 撤销选择
+        // 鎾ら攢閫夋嫨
         track.pop_back();
         sum -= nums[i];
     }
@@ -41,7 +41,7 @@ vector<vector<int>> combinationSum(vector<int> &candidates, int target)
     vector<int> track;
     backtrack(candidates, track, target);
 
-    // 剪枝 去掉重复结果
+    // 鍓灊 鍘绘帀閲嶅缁撴灉
     for (int i = 0; i < res.size(); i++)
         sort(res[i].begin(), res[i].end());
     sort(res.begin(), res.end());

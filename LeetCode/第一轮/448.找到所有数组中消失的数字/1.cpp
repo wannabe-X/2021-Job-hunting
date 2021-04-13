@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// 使用位运算（异或运算）操作符
+// 浣跨敤浣嶈繍绠楋紙寮傛垨杩愮畻锛夋搷浣滅
 int findDisappearedNumbers(vector<int> &nums)
 {
     int n = nums.size(), res = 0;

@@ -5,17 +5,17 @@
 class Ciclequeue
 {
 public:
-    //¶ÓÁĞ×î´óÈİÁ¿
+    //é˜Ÿåˆ—æœ€å¤§å®¹é‡
     int m_maxSize;
-    //¶ÓÁĞÍ·Ö¸Õë
+    //é˜Ÿåˆ—å¤´æŒ‡é’ˆ
     int m_frontIdx;
-    //¶ÓÁĞÎ²Ö¸Õë
+    //é˜Ÿåˆ—å°¾æŒ‡é’ˆ
     int m_rearIdx;
-    //¶ÓÁĞÊı×é
+    //é˜Ÿåˆ—æ•°ç»„
     int *m_queueArr;
 
 public:
-    //¹¹Ôìº¯Êı
+    //æ„é€ å‡½æ•°
     Ciclequeue(int tmpSize)
     {
         m_maxSize = tmpSize;
@@ -25,14 +25,14 @@ public:
         memset(m_queueArr, 0, sizeof(int) * m_maxSize);
     }
 
-    //Îö¹¹º¯Êı
+    //ææ„å‡½æ•°
     ~Ciclequeue()
     {
         delete m_queueArr;
         m_queueArr = NULL;
     }
 
-    //Èë¶Ó
+    //å…¥é˜Ÿ
     void enqueue(int datavalue)
     {
         if (isfull())
@@ -45,7 +45,7 @@ public:
         m_rearIdx = (m_rearIdx + 1) % m_maxSize;
     }
 
-    //³ö¶Ó
+    //å‡ºé˜Ÿ
     void dequeue()
     {
         if (isempty())
@@ -54,11 +54,11 @@ public:
             return;
         }
 
-        m_queueArr[m_frontIdx] = -1; //Ä£Äâ³ö¶ÓÁĞ¶¯×÷
+        m_queueArr[m_frontIdx] = -1; //æ¨¡æ‹Ÿå‡ºé˜Ÿåˆ—åŠ¨ä½œ
         m_frontIdx = (m_frontIdx + 1) % m_maxSize;
     }
 
-    //¼ì²é¶ÓÁĞÊÇ·ñÒÑÂú
+    //æ£€æŸ¥é˜Ÿåˆ—æ˜¯å¦å·²æ»¡
     bool isfull()
     {
         if (m_maxSize == -1)
@@ -69,7 +69,7 @@ public:
         return (m_rearIdx + 1) % m_maxSize == m_frontIdx;
     }
 
-    //¼ì²é¶ÓÁĞÊÇ·ñÎª¿Õ
+    //æ£€æŸ¥é˜Ÿåˆ—æ˜¯å¦ä¸ºç©º
     bool isempty()
     {
         if (m_maxSize == -1)
@@ -80,13 +80,13 @@ public:
         return m_rearIdx == m_frontIdx;
     }
 
-    //µ±Ç°¶ÓÁĞÔªËØ¸÷¸öÊı
+    //å½“å‰é˜Ÿåˆ—å…ƒç´ å„ä¸ªæ•°
     int size()
     {
         return (m_rearIdx - m_frontIdx + m_maxSize) % m_maxSize;
     }
 
-    //ÏÔÊ¾¶ÓÁĞ
+    //æ˜¾ç¤ºé˜Ÿåˆ—
     void showqueue()
     {
         if (isempty())
@@ -100,7 +100,7 @@ public:
         }
     }
 
-    //ÏÔÊ¾¶ÓÁĞÍ·
+    //æ˜¾ç¤ºé˜Ÿåˆ—å¤´
     void showqueuefront()
     {
         std::cout << m_queueArr[m_frontIdx] << std::endl;

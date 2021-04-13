@@ -47,25 +47,25 @@ TreeNode *deleteNode(TreeNode *root, int key)
         return NULL;
     if (root->val == key)
     {
-        // case 1: ¸Ã½ÚµãÃ»ÓÐ×óº¢×ÓÓÒº¢×Ó
+        // case 1: è¯¥èŠ‚ç‚¹æ²¡æœ‰å·¦å­©å­å³å­©å­
         // if (root->left == NULL && root->right == NULL)
         //     return NULL;
-        // case 2: ¸Ã½ÚµãÒªÃ´ÓÐ×óº¢×Ó ÒªÃ´ÓÐÓÒº¢×Ó
+        // case 2: è¯¥èŠ‚ç‚¹è¦ä¹ˆæœ‰å·¦å­©å­ è¦ä¹ˆæœ‰å³å­©å­
         if (root->left == NULL)
             return root->right;
         if (root->right == NULL)
             return root->left;
-        // case 3£º¸Ã½ÚµãµÄ×óÓÒ×ÓÊ÷¾ùÓÐº¢×Ó
+        // case 3ï¼šè¯¥èŠ‚ç‚¹çš„å·¦å³å­æ ‘å‡æœ‰å­©å­
         if (root->left != NULL && root->right != NULL)
         {
-            // Ê×ÏÈÕÒµ½ÓÒ×ÓÊ÷µÄ×îÐ¡ÖµµÄ½áµãµØÖ·
+            // é¦–å…ˆæ‰¾åˆ°å³å­æ ‘çš„æœ€å°å€¼çš„ç»“ç‚¹åœ°å€
             // TreeNode *minNode = getMin(root);
             TreeNode *minNode = root->right;
             while (minNode->left != NULL)
                 minNode = minNode->left;
-            // ½«¸Ã½ÚµãµÄÖµÓÃ×îÐ¡ÖµÌæ»»
+            // å°†è¯¥èŠ‚ç‚¹çš„å€¼ç”¨æœ€å°å€¼æ›¿æ¢
             root->val = minNode->val;
-            // È»ºóÔÙÒÔ¸Ã½ÚµãµÄÓÒº¢×ÓÎªÆðµã£¬µÝ¹éÉ¾³ý×îÐ¡Öµ
+            // ç„¶åŽå†ä»¥è¯¥èŠ‚ç‚¹çš„å³å­©å­ä¸ºèµ·ç‚¹ï¼Œé€’å½’åˆ é™¤æœ€å°å€¼
             root->right = deleteNode(root->right, minNode->val);
         }
     }

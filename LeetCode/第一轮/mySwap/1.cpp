@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
  
-// ÕâÀï²åÈëmySwapº¯ÊıÉùÃ÷ºÍ¶¨Òå
+// è¿™é‡Œæ’å…¥mySwapå‡½æ•°å£°æ˜å’Œå®šä¹‰
 // void mySwap(int a, int b)
 // {
 // 	int temp = a;
@@ -36,7 +36,7 @@ int main()
 {
 	int n = 15, m = 20;
 	cout << "before:\tn = " << n << ", \tm = " << m << endl;
-	// Èç¹ûÊÇ´«Ö¸ÕëÇëÓÃÕâÖÖ·½Ê½µ÷ÓÃ£º
+	// å¦‚æœæ˜¯ä¼ æŒ‡é’ˆè¯·ç”¨è¿™ç§æ–¹å¼è°ƒç”¨ï¼š
 	// mySwap(&n, &m);
 	mySwap(&n, &m);
 	cout << "after:\tn = " << n << ", \tm = " << m << endl;

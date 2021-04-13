@@ -7,11 +7,11 @@ using namespace std;
 
 vector<int> findErrorNums(vector<int> &nums)
 {
-    // 时间复杂度为nlogn;
+    // 鏃堕棿澶嶆潅搴︿负nlogn;
     sort(nums.begin(), nums.end());
     int preValue = nums[0], repeat, res = 0;
 
-    // 寻找重复元素
+    // 瀵绘壘閲嶅鍏冪礌
     for (int i = 1; i < nums.size(); i++)
     {
 

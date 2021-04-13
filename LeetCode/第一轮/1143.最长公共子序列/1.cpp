@@ -12,7 +12,7 @@ int longestCommonSubsequence(string text1, string text2)
     for (int i = 1; i <= m; i++)
     {
         for (int j = 1; j <= n; j++)
-            // ÒòÎªi,j¶¼ÊÇ´Ó1¿ªÊ¼µÄ£¬ËùÒÔtext1[i - 1]£¬text2[j - 1]±È½ÏµÄ¾ÍÊÇµÚi,j¸öÔªËØ
+            // å› ä¸ºi,jéƒ½æ˜¯ä»Ž1å¼€å§‹çš„ï¼Œæ‰€ä»¥text1[i - 1]ï¼Œtext2[j - 1]æ¯”è¾ƒçš„å°±æ˜¯ç¬¬i,jä¸ªå…ƒç´ 
             dp[i][j] = (text1[i - 1] == text2[j - 1]) ? dp[i - 1][j - 1] + 1 : max(dp[i - 1][j], dp[i][j - 1]);
     }
 

@@ -8,7 +8,7 @@ vector<int> dailyTemperatures(vector<int> &T)
 {
     vector<int> res(T.size());
     stack<int> s;
-    // sÖÐ´æ·ÅµÄÊÇÏÂ±ê£¬ÏÂ±ê¶ÔÓ¦µÄÔªËØÖµÊÇµ¥µ÷µÄ
+    // sä¸­å­˜æ”¾çš„æ˜¯ä¸‹æ ‡ï¼Œä¸‹æ ‡å¯¹åº”çš„å…ƒç´ å€¼æ˜¯å•è°ƒçš„
     for (int i = T.size() - 1; i > -1; i--)
     {
         while (!s.empty() && T[s.top()] <= T[i])

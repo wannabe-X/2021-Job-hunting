@@ -33,13 +33,13 @@ void print(ListNode *T)
 }
 
 ListNode *Left;
-// Left RightÏàµ±ÓÚË«Ö¸Õë£¬LeftÖ¸ÏòÍ·½áµã£¬RightÖ¸ÏòÎ²½áµã
+// Left Rightç›¸å½“äºåŒæŒ‡é’ˆï¼ŒLeftæŒ‡å‘å¤´ç»“ç‚¹ï¼ŒRightæŒ‡å‘å°¾ç»“ç‚¹
 bool traverse(ListNode *Right)
 {
     if (Right == NULL)
         return true;
     bool res = traverse(Right->next);
-    // ºóĞò±éÀú
+    // ååºéå†
     res = res && (Right->val == Left->val);
     Left = Left->next;
     return res;

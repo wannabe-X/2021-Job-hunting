@@ -11,7 +11,7 @@ int reverse(int x)
     while (x)
     {
         int pop = x % 10;
-        // 整数型的范围 [-2^31,2^31-1] => [-2147483648,2147483647]
+        // 鏁存暟鍨嬬殑鑼冨洿 [-2^31,2^31-1] => [-2147483648,2147483647]
         if (num > INT_MAX / 10 || (num == INT_MAX / 10) && pop > 7)
             return 0;
         if (num < INT_MIN / 10 || (num == INT_MIN / 10) && pop < -8)

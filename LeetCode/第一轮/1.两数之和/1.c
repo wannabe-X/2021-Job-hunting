@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// 数组是升序的
+// 鏁扮粍鏄崌搴忕殑
 int *twoSum(int *nums, int numsSize, int target, int *returnSize)
 {
     int left = 0, right = numsSize - 1;

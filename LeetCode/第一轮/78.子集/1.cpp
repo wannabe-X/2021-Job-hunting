@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// 解法1：利用数学归纳的思想
+// 瑙ｆ硶1锛氬埄鐢ㄦ暟瀛﹀綊绾崇殑鎬濇兂
 vector<vector<int> > subsets(vector<int> &nums)
 {
     if (nums.empty())

@@ -17,12 +17,12 @@ void backtrack(vector<int> &nums, vector<bool> &used)
     {
         if (used[i] == true)
             continue;
-        // 做选择
+        // 鍋氶�夋嫨
         used[i] = true;
         track.push_back(nums[i]);
-        // 递归
+        // 閫掑綊
         backtrack(nums, used);
-        // 撤销选择
+        // 鎾ら攢閫夋嫨
         track.pop_back();
         used[i] = false;
     }

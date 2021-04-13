@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// ½â·¨2 ¸ù¾İºËĞÄË¼Ïë Ê¹ÓÃ±¸ÍüÂ¼½øĞĞÓÅ»¯
+// è§£æ³•2 æ ¹æ®æ ¸å¿ƒæ€æƒ³ ä½¿ç”¨å¤‡å¿˜å½•è¿›è¡Œä¼˜åŒ–
 int trap(vector<int> &height)
 {
     if (height.empty()) return 0;

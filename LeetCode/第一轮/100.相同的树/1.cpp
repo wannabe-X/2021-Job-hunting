@@ -8,7 +8,7 @@ struct TreeNode
     TreeNode *left, *right;
 };
 
-// 采用传引用的方式创建一棵树
+// 閲囩敤浼犲紩鐢ㄧ殑鏂瑰紡鍒涘缓涓�妫垫爲
 void CreateTree(TreeNode *&T, int *a, int len, int loc)
 {
     if (loc >= len)

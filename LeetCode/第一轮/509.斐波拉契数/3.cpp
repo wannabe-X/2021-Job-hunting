@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// ½â·¨4 ×Ôµ×ÏòÉÏµÄ·½·¨
+// è§£æ³•4 è‡ªåº•å‘ä¸Šçš„æ–¹æ³•
 int fib(int n){
 	if(n==0) return 0;
 	if(n==1) return 1;

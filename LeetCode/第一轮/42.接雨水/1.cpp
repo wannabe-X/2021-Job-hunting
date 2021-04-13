@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// 解法1 根据核心思想 暴力破解
+// 瑙ｆ硶1 鏍规嵁鏍稿績鎬濇兂 鏆村姏鐮磋В
 int trap(vector<int> &height)
 {
     if (height.empty()) return 0;

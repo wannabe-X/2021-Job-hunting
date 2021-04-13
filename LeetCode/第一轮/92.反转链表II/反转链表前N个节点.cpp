@@ -32,7 +32,7 @@ void print(ListNode *T)
         cout << T->val << endl;
 }
 
-// ·´×ªÁ´±íÇ° N ¸ö½Úµã
+// åè½¬é“¾è¡¨å‰ N ä¸ªèŠ‚ç‚¹
 ListNode *successor = NULL;
 ListNode *reverseN(ListNode *head, int n)
 {

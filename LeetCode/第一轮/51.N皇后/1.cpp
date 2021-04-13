@@ -8,28 +8,28 @@ bool isValid(vector<string>&, int, int);
 
 vector<vector<string> > res;
 
-// ³õÊ¼»¯ÆåÅÌ
+// åˆå§‹åŒ–æ£‹ç›˜
 vector<vector<string> > solveNQueen(int n){
 	vector<string> board(n,string(n,'X'));
 	backtrack(board, 0);
 	return res;
 }
 
-/* ÊÇ·ñ¿ÉÒÔÔÚ board[row][col] ·ÅÖÃ»Êºó£¿ */
+/* æ˜¯å¦å¯ä»¥åœ¨ board[row][col] æ”¾ç½®çš‡åï¼Ÿ */
 bool isValid(vector<string>& board, int row, int col) {
     int n = board.size();
-    // ¼ì²éÁĞÊÇ·ñÓĞ»Êºó»¥Ïà³åÍ»
+    // æ£€æŸ¥åˆ—æ˜¯å¦æœ‰çš‡åäº’ç›¸å†²çª
     for (int i = 0; i < n; i++) {
         if (board[i][col] == 'Q')
             return false;
     }
-    // ¼ì²éÓÒÉÏ·½ÊÇ·ñÓĞ»Êºó»¥Ïà³åÍ»
+    // æ£€æŸ¥å³ä¸Šæ–¹æ˜¯å¦æœ‰çš‡åäº’ç›¸å†²çª
     for (int i = row - 1, j = col + 1;
             i >= 0 && j < n; i--, j++) {
         if (board[i][j] == 'Q')
             return false;
     }
-    // ¼ì²é×óÉÏ·½ÊÇ·ñÓĞ»Êºó»¥Ïà³åÍ»
+    // æ£€æŸ¥å·¦ä¸Šæ–¹æ˜¯å¦æœ‰çš‡åäº’ç›¸å†²çª
     for (int i = row - 1, j = col - 1;
             i >= 0 && j >= 0; i--, j--) {
         if (board[i][j] == 'Q')

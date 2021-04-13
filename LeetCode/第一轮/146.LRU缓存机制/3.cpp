@@ -14,7 +14,7 @@ public:
         node(int key, int val) : key(key), val(val), next(NULL), pre(NULL) {}
     };
 
-    // ÕÍ≥…≥ı ºªØ
+    // ÂÆåÊàêÂàùÂßãÂåñ
     LRUCache(int capacity)
     {
         this->capacity = capacity;
@@ -87,14 +87,14 @@ public:
 int main(void)
 {
     LRUCache lru(2);
-    lru.put(1, 1);              // ª∫¥Ê « {1=1}
-    lru.put(2, 2);              // ª∫¥Ê « {1=1, 2=2}
-    cout << lru.get(1) << endl; // ∑µªÿ 1
-    lru.put(3, 3);              // ∏√≤Ÿ◊˜ª· πµ√πÿº¸◊÷ 2 ◊˜∑œ£¨ª∫¥Ê « {3=3, 1=1}
-    cout << lru.get(2) << endl; // ∑µªÿ -1 (Œ¥’“µΩ)
-    lru.put(4, 4);              // ∏√≤Ÿ◊˜ª· πµ√πÿº¸◊÷ 1 ◊˜∑œ£¨ª∫¥Ê « {4=4, 3=3}
-    cout << lru.get(1) << endl; // ∑µªÿ -1 (Œ¥’“µΩ)
-    cout << lru.get(3) << endl; // ∑µªÿ 3
-    cout << lru.get(4) << endl; // ∑µªÿ 4
+    lru.put(1, 1);              // ÁºìÂ≠òÊòØ {1=1}
+    lru.put(2, 2);              // ÁºìÂ≠òÊòØ {1=1, 2=2}
+    cout << lru.get(1) << endl; // ËøîÂõû 1
+    lru.put(3, 3);              // ËØ•Êìç‰Ωú‰ºö‰ΩøÂæóÂÖ≥ÈîÆÂ≠ó 2 ‰ΩúÂ∫üÔºåÁºìÂ≠òÊòØ {3=3, 1=1}
+    cout << lru.get(2) << endl; // ËøîÂõû -1 (Êú™ÊâæÂà∞)
+    lru.put(4, 4);              // ËØ•Êìç‰Ωú‰ºö‰ΩøÂæóÂÖ≥ÈîÆÂ≠ó 1 ‰ΩúÂ∫üÔºåÁºìÂ≠òÊòØ {4=4, 3=3}
+    cout << lru.get(1) << endl; // ËøîÂõû -1 (Êú™ÊâæÂà∞)
+    cout << lru.get(3) << endl; // ËøîÂõû 3
+    cout << lru.get(4) << endl; // ËøîÂõû 4
     return 0;
 }

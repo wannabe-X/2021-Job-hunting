@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// ½â·¨3 ¸ù¾İºËĞÄË¼Ïë Ê¹ÓÃË«Ö¸Õë·¨½øĞĞÓÅ»¯
+// è§£æ³•3 æ ¹æ®æ ¸å¿ƒæ€æƒ³ ä½¿ç”¨åŒæŒ‡é’ˆæ³•è¿›è¡Œä¼˜åŒ–
 int trap(vector<int> &height)
 {
     if (height.empty())
@@ -18,7 +18,7 @@ int trap(vector<int> &height)
         r_max = max(r_max, height[right]);
 
         if (l_max < r_max)
-            // water_iÄÜ×°¶àÉÙË®£¬È¡¾öÓÚ×óÓÒÁ½±ß×îĞ¡µÄÒ»¸ö
+            // water_ièƒ½è£…å¤šå°‘æ°´ï¼Œå–å†³äºå·¦å³ä¸¤è¾¹æœ€å°çš„ä¸€ä¸ª
             res += l_max - height[left++];
         else
             res += r_max - height[right--];

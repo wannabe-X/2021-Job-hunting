@@ -4,7 +4,7 @@ using namespace std;
 
 void Merge(int arr[], int l, int q, int r)
 {
-    int n = r - l + 1; //ÁÙÊ±Êı×é´æºÏ²¢ºóµÄÓĞĞòĞòÁĞ
+    int n = r - l + 1; //ä¸´æ—¶æ•°ç»„å­˜åˆå¹¶åçš„æœ‰åºåºåˆ—
     int *tmp = new int[n];
     int i = 0;
     int left = l;
@@ -17,13 +17,13 @@ void Merge(int arr[], int l, int q, int r)
         tmp[i++] = arr[right++];
     for (int j = 0; j < n; ++j)
         arr[l + j] = tmp[j];
-    delete[] tmp; //É¾µô¶ÑÇøµÄÄÚ´æ
+    delete[] tmp; //åˆ æ‰å †åŒºçš„å†…å­˜
 }
 
 void MergeSort(int arr[], int l, int r)
 {
     if (l >= r)
-        return; //µİ¹é»ùÊÇÈÃÊı×éÖĞµÄÃ¿¸öÊıµ¥¶À³ÉÎª³¤¶ÈÎª1µÄÇø¼ä
+        return; //é€’å½’åŸºæ˜¯è®©æ•°ç»„ä¸­çš„æ¯ä¸ªæ•°å•ç‹¬æˆä¸ºé•¿åº¦ä¸º1çš„åŒºé—´
     int q = (l + r) / 2;
     MergeSort(arr, l, q);
     MergeSort(arr, q + 1, r);

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// KMP 算法 haystack是文本串，needle是模式串
+// KMP 绠楁硶 haystack鏄枃鏈覆锛宯eedle鏄ā寮忎覆
 int strStr(string haystack, string needle)
 {
     if (needle.size() == 0)

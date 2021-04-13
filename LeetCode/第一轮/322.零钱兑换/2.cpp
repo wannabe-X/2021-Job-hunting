@@ -3,10 +3,10 @@
 
 using namespace std;
 
-// ½â·¨2 µü´ú·¨
+// è§£æ³•2 è¿­ä»£æ³•
 int coinChange(vector<int>& coins, int amount) {
 	
-	// dp Êı×éµÄ¶¨Òå£ºµ±Ä¿±ê½ğ¶îÎª i Ê±£¬ÖÁÉÙĞèÒª dp[i] Ã¶Ó²±Ò´Õ³ö¡£
+	// dp æ•°ç»„çš„å®šä¹‰ï¼šå½“ç›®æ ‡é‡‘é¢ä¸º i æ—¶ï¼Œè‡³å°‘éœ€è¦ dp[i] æšç¡¬å¸å‡‘å‡ºã€‚
 	vector<int> dp(amount+1, amount+1);
 	dp[0] = 0;
 

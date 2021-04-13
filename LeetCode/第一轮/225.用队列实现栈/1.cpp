@@ -55,11 +55,11 @@ int main(void)
     mystack.push(1);
     mystack.push(2);
     mystack.push(3);
-    cout << "ջ��Ԫ��Ϊ:" << mystack.top() << endl;
-    cout << "��ջ˳��Ϊ:" << endl;
+    cout << "栈顶元素为:" << mystack.top() << endl;
+    cout << "出栈顺序为:" << endl;
     cout << mystack.pop() << endl;
     cout << mystack.pop() << endl;
     cout << mystack.pop() << endl;
-    cout << "ջΪ��:" << endl;
+    cout << "栈为空:" << endl;
     cout << mystack.empty() << endl;
 }

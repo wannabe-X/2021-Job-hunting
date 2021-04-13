@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// k=1µÄÇé¿ö
+// k=1çš„æƒ…å†µ
 
 int ReservoirSampling(vector<int> &nums)
 {
@@ -11,7 +11,7 @@ int ReservoirSampling(vector<int> &nums)
 
     for (int i = 0; i < nums.size(); i++)
     {
-        if (rand() % (i + 1) == 0) // ¶ÔÓÚÃ¿´ÎÐÂ½øÀ´µÄ¶îÊý£¬ÒÔ1/iµÄ¸ÅÂÊ±£Áô
+        if (rand() % (i + 1) == 0) // å¯¹äºŽæ¯æ¬¡æ–°è¿›æ¥çš„é¢æ•°ï¼Œä»¥1/içš„æ¦‚çŽ‡ä¿ç•™
             res = nums[i];
     }
 

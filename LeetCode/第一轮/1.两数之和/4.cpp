@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// ÀûÓÃHashMap¼õÉÙÊ±¼ä¸´ÔÓ¶È
+// åˆ©ç”¨HashMapå‡å°‘æ—¶é—´å¤æ‚åº¦
 
 vector<int> twoSum(vector<int> &nums, int target)
 {

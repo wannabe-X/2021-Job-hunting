@@ -15,7 +15,7 @@ int lengthOfLongestSubstring(string s)
         window[c1]++;
         right++;
 
-        while (window[c1] > 1) //³öÏÖÖØ¸´
+        while (window[c1] > 1) //å‡ºç°é‡å¤
         {
             char c2 = s[left];
             window[c2]--;
