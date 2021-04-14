@@ -3,6 +3,7 @@
 
 using namespace std;
 
+// 参考代码
 int findRepeatNumber(vector<int> &nums)
 {
     int i = 0;
