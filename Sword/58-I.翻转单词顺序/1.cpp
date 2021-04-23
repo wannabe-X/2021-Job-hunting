@@ -4,19 +4,6 @@
 
 using namespace std;
 
-//去掉收尾空格
-string &ClearHeadTailSpace(string &str)
-{
-    if (str.empty())
-    {
-        return str;
-    }
-
-    str.erase(0, str.find_first_not_of(" "));
-    str.erase(str.find_last_not_of(" ") + 1);
-    return str;
-}
-
 // 左闭右闭 翻转字符串
 void Reverse(string &s, int left, int right)
 {
@@ -70,7 +57,7 @@ string reverseWords(string s)
 
     // 字符串最后一个位置放的是空格，要去掉
     // return res.erase(res.size() - 1);
-    
+
     return res.substr(0, res.size() - 1);
 }
 
