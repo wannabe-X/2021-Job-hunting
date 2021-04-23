@@ -28,6 +28,7 @@ void dfs(string &path, string &s, vector<bool> &visited)
         path.push_back(s[i]);
 
         dfs(path, s, visited);
+        
         path.pop_back();
         visited[i] = false;
     }
