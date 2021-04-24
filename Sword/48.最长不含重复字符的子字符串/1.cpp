@@ -14,6 +14,7 @@ int lengthOfLongestSubstring(string s)
         right++;
 
         // 保证[left,right)左闭右开区间内无重复
+        // f(i-1) <= d的情形
         while (myMap[c1] > 1) 
         {
             char c2 = s[left];
@@ -22,6 +23,7 @@ int lengthOfLongestSubstring(string s)
         }
         
         // 每次在确保没有重复的情况下计算最大不重复的长度
+        // f(i-1) > d 的情形
         cout << right - left << endl;
         res = max(res, right - left);
     }
