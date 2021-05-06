@@ -8,7 +8,8 @@ int main(void)
     NewPlayer newplayer("Jack", true, 95);
     newplayer.show_new();
 
-    NewPlayer newplayer1(player, 95);
+    // 调用复制构造函数
+    NewPlayer newplayer1(player, 96);
     newplayer1.show_new();
 
     newplayer1.reset_score(68);
