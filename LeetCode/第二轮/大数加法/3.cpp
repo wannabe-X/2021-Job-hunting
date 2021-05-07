@@ -20,6 +20,7 @@ string solve(string s, string t)
     }
 
     reverse(ans.rbegin(), ans.rend());
+    
     return ans;
 }
 
