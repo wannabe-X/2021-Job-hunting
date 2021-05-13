@@ -1,0 +1,680 @@
+mysql day04课堂笔记
+
+1.索引
+	1.什么是索引？(index)
+		索引在数据库表的字段上添加的，是为了提高检索效率而存在的一种机制。
+		一张表的一个字段可以添加一个索引，当然，多个字段联合起来也可以添加索引。
+		索引相当于一本书的目录，是为了缩小扫描范围而存在的一种机制。
+		
+		对于一本字典来说，查找某个汉字有两种方式
+			第一种方式：一页一页的挨着找，直到找到为止，这种查找方式属于全字典扫描。
+				效率较低。
+			第二种方式：先通过目录（索引）去定位一个大概的位置，然后直接定位到这个
+				位置，做局域性扫描，缩小扫描的范围，快速查找。这种查找方式效率较高
+			
+			t_user
+			id	name(nameIndex)		email(emailIndex)	address(emailAddressIndex)
+			--------------------------------------------------------------------------------------------------------
+			1	zhangsan
+			2	lisi
+			3	wangwu
+			4	zhaoliu
+			5	hanmeimei
+			6	jack
+		
+		select * from t_user where name = 'jack';
+		以上的这条SQL语句会去那么字段上扫描，因为查询条件是：name = 'jack';
+		
+		如果name字段上没有添加索引（目录），或者说没有给name字段创建索引，
+		MySQL会进行全扫描，会将name字段上的每一个值都比对一遍。效率比较低
+		
+		MySQL在查询方面主要就是两种方式：
+			第一种方式：全表扫描
+			第二种方式：根据索引检索
+		
+		注意：
+			在实际中，汉语字典前面的目录是排序的，按照abcdefgh...排序
+			为什么排序呢？因为只要排序了才会有区间查找一说。
+			缩小扫描范围其实就是扫描某个区间。
+			
+			在MySQL数据库中索引也是需要排序的，并且这个索引的排序和TreeSet
+			数据结构相同。TreeSet的底层是一个自平衡的二叉树。
+			在MySQL当中索引是一个B-Tree数据结构
+			
+			遵循左小右大原则存放。采用中序遍历方式读取数据
+	2.索引的实现原理？
+		t_user
+		id(PK)					name			每一行记录在硬盘上都有物理存储编号
+		-----------------------------------------
+		100						zhangsan		ox1111
+		120						lisi			ox2222
+		99						wangwu			ox8888
+		88						zhaoliu			ox9999
+		101						jack			ox6666
+		55						lucy			ox5555
+		130						tom				ox7777
+		
+		提醒1：在任何数据库当中主键上都会自动添加索引对象，id字段上自动有索引
+		因为id是主键。另外在MySQL当中，一个字段上如果有unique约束的话，也会
+		自动创建索引对象。
+		
+		提醒2：在任何数据库当中，任何一张表的任何一条记录在硬盘存储上都有
+		一个硬盘的物理存储编号。
+		
+		提醒3：在MySQL当中，索引是一个单独的对象，不同的存储引擎以不同的形式
+		存在，在MyISAM存储引擎中，索引存储在一个.MYI文件中。在InnoDB存储引擎中，
+		索引存储在一个逻辑名称叫做tablespace的当中。在MEMORY存储引擎中，索引是被
+		存储在内存当中。不管索引存储在哪里，索引在MySQL当中都是一个数的形式存在。
+		（自平衡二叉树：B-Tree）
+		
+		索引的实现原理：就是缩小扫描的范围，避免全表扫描
+		
+	3.在MySQL中，主键上以及unique字段上，都会自动添加索引
+		什么条件下，我们会考虑给字段添加索引？
+			条件1：数据量庞大（到底多么大算庞大，需要测试，每一个硬件环境不同）
+			条件2：该字段经常出现在where的后面，以条件的形式存在。也就是说这个
+				字段总是被扫描
+			条件3：该字段有很少的DML（insert delete update）操作。（因为DML之后，索引需要重新排序）
+		
+		建议不要随意添加索引，因为索引也是需要维护的，太多的话反而会降低系统的性能。
+		建议通过主键或者unique约束的字段去查找，这样操作效率会高一些
+	
+	4.索引怎么创建？怎么删除？语法是什么？
+		创建索引：给emp表中的ename字段创建索引，命名为emp_ename_index
+			mysql> create index emp_ename_index on emp(ename);
+			Query OK, 0 rows affected (0.05 sec)
+			Records: 0  Duplicates: 0  Warnings: 0
+		
+		删除索引：将emp表上的emp_ename_index索引删除
+			mysql> drop index emp_ename_index on emp;
+			Query OK, 0 rows affected (0.01 sec)
+			Records: 0  Duplicates: 0  Warnings: 0
+		
+	5.在MySQL中，怎么查看一个SQL语句是否使用了索引进行检索？
+		使用explain关键字
+	
+			mysql> explain select * from emp where ename = 'KING';
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			|  1 | SIMPLE      | emp   | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   14 |    10.00 | Using where |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			1 row in set, 1 warning (0.00 sec)
+			扫描14条记录：说明没有使用索引。type=ALL
+		
+		为emp表中的enamel字段添加emp_index_ename索引后，
+			mysql> explain select * from emp where ename = 'KING';
+			+----+-------------+-------+------------+------+-----------------+-----------------+---------+-------+------+----------+-------+
+			| id | select_type | table | partitions | type | possible_keys   | key             | key_len | ref   | rows | filtered | Extra |
+			+----+-------------+-------+------------+------+-----------------+-----------------+---------+-------+------+----------+-------+
+			|  1 | SIMPLE      | emp   | NULL       | ref  | emp_index_ename | emp_index_ename | 43      | const |    1 |   100.00 | NULL  |
+			+----+-------------+-------+------------+------+-----------------+-----------------+---------+-------+------+----------+-------+
+			1 row in set, 1 warning (0.00 sec)
+			扫描1条记录：说明使用索引。type=ref
+	
+	6.索引有失效的时候，什么时候索引会失效呢？
+	
+		失效的第一种情况：
+			select * from emp where ename like '%T';
+			
+			即使添加了索引，使用模糊查询时，以'%'开头
+			mysql> explain select * from emp where ename like '%T';
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			|  1 | SIMPLE      | emp   | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   14 |    11.11 | Using where |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			1 row in set, 1 warning (0.00 sec)
+			扫描14条记录：说明没有使用索引。type=ALL。说明索引失效
+			
+			ename上即使添加了字段，也不会走索引，为什么？
+				原因是因为模糊匹配当中以'%'开头
+				尽量避免使用模糊查询的时候以'%'开头
+		
+		失效的第二种情况：
+			使用or的时候会失效，如果使用or，那么要求or两边的条件字段都要有
+			索引，才会走索引。如果其中一边有一个字段没有索引，那么另一个字段
+			的索引也会失效。所以这就是为什么不建议使用or的原因
+		
+		// ename字段有索引，job字段没有添加索引
+		// 此时，使用or的话，索引会失效
+		mysql> explain select * from emp where ename = 'KING' or job = 'MANAGER';
+		+----+-------------+-------+------------+------+-----------------+------+---------+------+------+----------+-------------+
+		| id | select_type | table | partitions | type | possible_keys   | key  | key_len | ref  | rows | filtered | Extra       |
+		+----+-------------+-------+------------+------+-----------------+------+---------+------+------+----------+-------------+
+		|  1 | SIMPLE      | emp   | NULL       | ALL  | emp_index_ename | NULL | NULL    | NULL |   14 |    16.43 | Using where |
+		+----+-------------+-------+------------+------+-----------------+------+---------+------+------+----------+-------------+
+		1 row in set, 1 warning (0.00 sec)
+		扫描14条记录：说明没有使用索引。type=ALL。说明索引失效
+		
+		失效的第三种情况：
+			使用复合索引的时候，没有使用左侧的列查找，索引失效。
+			什么是复合索引：
+				两个字段或者更多的字段联合起来添加一个索引，叫做复合索引
+			
+			create index emp_job_sal_index on emp(job,sal);
+			mysql> create index emp_job_sal_index on emp(job,sal);
+			Query OK, 0 rows affected (0.08 sec)
+			Records: 0  Duplicates: 0  Warnings: 0
+
+			mysql> explain select * from emp where job = 'MANAGER';
+			+----+-------------+-------+------------+------+-------------------+-------------------+---------+-------+------+----------+-------+
+			| id | select_type | table | partitions | type | possible_keys     | key               | key_len | ref   | rows | filtered | Extra |
+			+----+-------------+-------+------------+------+-------------------+-------------------+---------+-------+------+----------+-------+
+			|  1 | SIMPLE      | emp   | NULL       | ref  | emp_job_sal_index | emp_job_sal_index | 39      | const |    3 |   100.00 | NULL  |
+			+----+-------------+-------+------------+------+-------------------+-------------------+---------+-------+------+----------+-------+
+			1 row in set, 1 warning (0.01 sec)
+			扫描3条记录：说明使用索引。type=ref
+			
+			explain select * from emp where sal > 1000;
+			mysql> explain select * from emp where sal = 5000;
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			|  1 | SIMPLE      | emp   | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   14 |    10.00 | Using where |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			1 row in set, 1 warning (0.00 sec)
+			扫描14条记录：说明没有使用索引。type=ALL。说明索引失效
+			没有使用左侧的列job进行查找，索引失效
+		
+		失效的第四种情况：
+			在where当中索引列参数参加了运算，索引失效。
+			给emp表中的sal字段添加索引
+			mysql> create index emp_sal_index on emp(sal);
+			Query OK, 0 rows affected (0.02 sec)
+			Records: 0  Duplicates: 0  Warnings: 0
+			
+			mysql> explain select * from emp where sal = 800;
+			+----+-------------+-------+------------+------+---------------+---------------+---------+-------+------+----------+-------+
+			| id | select_type | table | partitions | type | possible_keys | key           | key_len | ref   | rows | filtered | Extra |
+			+----+-------------+-------+------------+------+---------------+---------------+---------+-------+------+----------+-------+
+			|  1 | SIMPLE      | emp   | NULL       | ref  | emp_sal_index | emp_sal_index | 9       | const |    1 |   100.00 | NULL  |
+			+----+-------------+-------+------------+------+---------------+---------------+---------+-------+------+----------+-------+
+			1 row in set, 1 warning (0.00 sec)
+			扫描1条记录：说明使用索引。type=ref
+			
+			mysql> explain select * from emp where sal+1 = 800;
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			|  1 | SIMPLE      | emp   | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   14 |   100.00 | Using where |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			1 row in set, 1 warning (0.00 sec)
+			扫描14条记录：说明没有使用索引。type=ALL。说明索引失效
+			在where当中索引sal列参数参加了运算，索引失效。
+		
+		失效的第五种情况：
+			在where当中索引使用了函数
+			explain select * from emp where lower(ename)  = 'smith';
+			mysql> explain select * from emp where lower(ename)  = 'smith';
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			|  1 | SIMPLE      | emp   | NULL       | ALL  | NULL          | NULL | NULL    | NULL |   14 |   100.00 | Using where |
+			+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+			1 row in set, 1 warning (0.01 sec)
+			扫描14条记录：说明没有使用索引。type=ALL。说明索引失效
+			在where当中,sal索引使用了lower函数，索引失效
+		
+		失效的第六种情况：
+		失效的第七种情况：
+			......
+	
+	7.索引是各种数据库进行优化的重要手段。优化的时候，优先考虑的因素就是索引。
+		索引在数据库当中有很多类别：
+			单一索引：
+				一个字段上添加索引
+			
+			复合索引：
+				两个或多个字段上添加索引
+			
+			主键索引：
+				主键上添加索引
+			
+			唯一性索引：
+				在unique约束的字段上添加索引
+				
+			注意：唯一性比较弱的字段上添加索引用处不大。越唯一，索引效率越高。
+
+2.视图（view）
+	1.什么是视图？
+		view：站在不同的角度去看待同一份数据
+	2.怎么创建视图对象？怎么删除视图对象？
+		
+		表复制：
+			mysql> create table dept2 as select * from dept;
+			Query OK, 4 rows affected (0.04 sec)
+			Records: 4  Duplicates: 0  Warnings: 0
+		
+		dept3表的记录：
+			mysql> select * from dept2;
+			+--------+------------+----------+
+			| DEPTNO | DNAME      | LOC      |
+			+--------+------------+----------+
+			|     10 | ACCOUNTING | NEW YORK |
+			|     20 | RESEARCH   | DALLAS   |
+			|     30 | SALES      | CHICAGO  |
+			|     40 | OPERATIONS | BOSTON   |
+			+--------+------------+----------+
+			4 rows in set (0.00 sec)
+		
+		创建视图对象：
+			create view dept2_view as select * from dept2;
+		
+		删除视图对象：
+			drop view dept2_view;
+		
+		mysql> create view dept2_view as select * from dept2;
+		Query OK, 0 rows affected (0.01 sec)
+ 
+		mysql> drop view dept2_view;
+		Query OK, 0 rows affected (0.01 sec)
+	
+		注意：只要DQL语句才能以view的形式创建
+			create view dept2_view as 这里的语句必须是DQL语句(select语句);
+	
+	3.用视图做什么？
+		我们可以面向视图对象进行增删改查，对视图对象的增删改查会导致
+			原表被操作。（视图的特点：通过对视图对象的操作，会影响原表数据）
+			视图和复制表的区别：	
+				// 表的复制，dept2复制了dept表中的数据
+				create table dept2 as select * from dept; 
+				// 创建dept2的视图对象dept2_view
+				create view dept2_view as select * from dept2;
+			表的复制相当于是深拷贝，dept2复制了dept表中的数据，修改dept2的记录，dept不会改变。
+			创建dept2的视图对象dept2_view相当于浅拷贝，修改视图对象dept2_view的记录，dept2的记录也会被修改。
+			
+			// 创建dept2的视图对象dept2_view
+			mysql> create view dept2_view as select * from dept2;
+			Query OK, 0 rows affected (0.01 sec)
+			
+			// 查看dept2_view的记录
+			mysql> select * from dept2_view;
+			+--------+------------+----------+
+			| DEPTNO | DNAME      | LOC      |
+			+--------+------------+----------+
+			|     10 | ACCOUNTING | NEW YORK |
+			|     20 | RESEARCH   | DALLAS   |
+			|     30 | SALES      | CHICAGO  |
+			|     40 | OPERATIONS | BOSTON   |
+			+--------+------------+----------+
+			4 rows in set (0.00 sec)
+			
+			// 通过视图对象dept2_view插入数据
+			mysql> insert into dept2_view values(50,'BOSS','BEIJING');
+			Query OK, 1 row affected (0.01 sec)
+
+			mysql> select * from dept2_view;
+			+--------+------------+----------+
+			| DEPTNO | DNAME      | LOC      |
+			+--------+------------+----------+
+			|     10 | ACCOUNTING | NEW YORK |
+			|     20 | RESEARCH   | DALLAS   |
+			|     30 | SALES      | CHICAGO  |
+			|     40 | OPERATIONS | BOSTON   |
+			|     50 | BOSS       | BEIJING  |
+			+--------+------------+----------+
+			5 rows in set (0.00 sec)
+			
+			// 可知原表的数据也发生了改变
+			mysql> select * from dept2;
+			+--------+------------+----------+
+			| DEPTNO | DNAME      | LOC      |
+			+--------+------------+----------+
+			|     10 | ACCOUNTING | NEW YORK |
+			|     20 | RESEARCH   | DALLAS   |
+			|     30 | SALES      | CHICAGO  |
+			|     40 | OPERATIONS | BOSTON   |
+			|     50 | BOSS       | BEIJING  |
+			+--------+------------+----------+
+			5 rows in set (0.00 sec)
+			
+			// 利用视图对象进行删除
+			mysql> delete from dept2_view;
+			Query OK, 5 rows affected (0.01 sec)
+			
+			// 原表也会删除
+			mysql> select * from dept2;
+			Empty set (0.00 sec)
+		
+			create view 
+				emp_dept_view
+			as
+				select 
+					e.ename,e.sal,d.dname
+				from 
+					emp e
+					join
+					dept d
+				on
+					e.deptno = d.deptno;
+			
+			// 创建视图对象
+			mysql> create view
+			-> emp_dept_view
+			-> as
+			-> select
+			-> e.ename,e.sal,d.dname
+			-> from
+			-> emp e
+			-> join
+			-> dept d
+			-> on
+			-> e.deptno = d.deptno;
+			Query OK, 0 rows affected (0.01 sec)
+			
+			// 查询视图对象
+			mysql> select * from emp_dept_view;
+			+--------+---------+------------+
+			| ename  | sal     | dname      |
+			+--------+---------+------------+
+			| SMITH  |  800.00 | RESEARCH   |
+			| ALLEN  | 1600.00 | SALES      |
+			| WARD   | 1250.00 | SALES      |
+			| JONES  | 2975.00 | RESEARCH   |
+			| MARTIN | 1250.00 | SALES      |
+			| BLAKE  | 2850.00 | SALES      |
+			| CLARK  | 2450.00 | ACCOUNTING |
+			| SCOTT  | 3000.00 | RESEARCH   |
+			| KING   | 5000.00 | ACCOUNTING |
+			| TURNER | 1500.00 | SALES      |
+			| ADAMS  | 1100.00 | RESEARCH   |
+			| JAMES  |  950.00 | SALES      |
+			| FORD   | 3000.00 | RESEARCH   |
+			| MILLER | 1300.00 | ACCOUNTING |
+			+--------+---------+------------+
+			14 rows in set (0.00 sec)
+			
+			// 面向视图更新，在ACCOUNTING部门工作的员工，工资修改为1000
+			mysql> update emp_dept_view set sal = 1000 where dname = 'ACCOUNTING';
+			Query OK, 3 rows affected (0.01 sec)
+			Rows matched: 3  Changed: 3  Warnings: 0
+
+			mysql> select * from emp_dept_view;
+			+--------+---------+------------+
+			| ename  | sal     | dname      |
+			+--------+---------+------------+
+			| SMITH  |  800.00 | RESEARCH   |
+			| ALLEN  | 1600.00 | SALES      |
+			| WARD   | 1250.00 | SALES      |
+			| JONES  | 2975.00 | RESEARCH   |
+			| MARTIN | 1250.00 | SALES      |
+			| BLAKE  | 2850.00 | SALES      |
+			| CLARK  | 1000.00 | ACCOUNTING |
+			| SCOTT  | 3000.00 | RESEARCH   |
+			| KING   | 1000.00 | ACCOUNTING |
+			| TURNER | 1500.00 | SALES      |
+			| ADAMS  | 1100.00 | RESEARCH   |
+			| JAMES  |  950.00 | SALES      |
+			| FORD   | 3000.00 | RESEARCH   |
+			| MILLER | 1000.00 | ACCOUNTING |
+			+--------+---------+------------+
+			14 rows in set (0.00 sec)
+			
+			// 面向视图更新，原表数据被修改
+			// 在emp中，工作部门位于ACCOUNTING部门的工作的员工的sal被修改为1000
+			mysql> select * from emp;
+			+-------+--------+-----------+------+------------+---------+---------+--------+
+			| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
+			+-------+--------+-----------+------+------------+---------+---------+--------+
+			|  7369 | SMITH  | CLERK     | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |
+			|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 |
+			|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 |
+			|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |
+			|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+			|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |
+			|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 1000.00 |    NULL |     10 |
+			|  7788 | SCOTT  | ANALYST   | 7566 | 1987-04-19 | 3000.00 |    NULL |     20 |
+			|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 1000.00 |    NULL |     10 |
+			|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
+			|  7876 | ADAMS  | CLERK     | 7788 | 1987-05-23 | 1100.00 |    NULL |     20 |
+			|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |
+			|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 |
+			|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1000.00 |    NULL |     10 |
+			+-------+--------+-----------+------+------------+---------+---------+--------+
+			14 rows in set (0.00 sec)
+
+			mysql> select * from dept;
+			+--------+------------+----------+
+			| DEPTNO | DNAME      | LOC      |
+			+--------+------------+----------+
+			|     10 | ACCOUNTING | NEW YORK |
+			|     20 | RESEARCH   | DALLAS   |
+			|     30 | SALES      | CHICAGO  |
+			|     40 | OPERATIONS | BOSTON   |
+			+--------+------------+----------+
+			4 rows in set (0.00 sec)
+		
+	4.视图对象在实际开发在到底有什么用？“方便，简化开发，利于维护”
+		create view 
+			emp_dept_view
+		as
+			select 
+				e.ename,e.sal,d.dname
+			from 
+				emp e
+				join
+				dept d
+			on
+				e.deptno = d.deptno;
+		
+		假设有一条非常复杂的SQL语句，而这条SQL语句 需要在不同的位置上反复使用
+		每一次使用这个SQL语句的时候都需要重新编写，很长，很麻烦。
+			因此，可以把这条复杂的SQL语句以视图对象的形式新建。
+			在需要编写这条SQL语句的位置直接使用视图对象，可以大大简化开发。
+			并且利于后期的维护，因为修改的时候也只需要修改一个位置就行，
+			只需要修改视图对象所映射的SQL语句。
+		
+		我们以后面向视图开发的时候，使用视图的时候可以像视图table一样。
+		可以对视图进行增删改查等操作。视图不是在内存当中，视图对象也是
+		存储在硬盘上，不会消失。
+		
+		再提醒一下：
+			视图对应的语句只能是DQL语句
+			但是视图对象创建完成以后，可以对视图进行增删改查等操作
+		
+		小插曲：
+			增删改查，又叫做：CRUD
+			CRUD是在公司中程序员之间沟通的术语。
+			
+			C:create(增)
+			R:retrive(查：检索)
+			U:update(改)
+			D:delete(删)
+
+3.DBA常用命令
+	新建用户：
+		语法格式：
+			create user 用户名 identified by 该用户的登录密码;
+		
+		mysql> create user heweibin identified by 'hwb02345678';
+		Query OK, 0 rows affected (0.04 sec)
+	
+	重点掌握：
+		数据的导入和导出（数据的备份）
+		其他命令了解一下即可。
+	
+	数据导出？
+		mysql dump bjpowernode>D:\bjpowernode.sql -u root -p
+		Enter password:
+	
+	数据导入？
+		注意：需要先登录的奥MySQL数据库的服务器上
+		然后创建数据库：create database bjpowernode
+		使用数据库：use bjpowernode;
+		然后初始化数据库：source D:\bjpowernode.sql
+	
+	4.数据库设计三范式
+		1.什么是数据库设计范式？
+			数据库表的设计依据。
+		
+		2.数据库设计范式共有3个
+			第一范式：要求任何一张表必须有主键，没有一个字段原子性不可再分
+			第二范式：建立在第一范式的基础之上，要求所有的非主键字段完全依赖主键，不要产生部分依赖
+			第三范式：建立在第二范式的基础之上，要求所有的非主键字段直接依赖主键，不要产生传递依赖
+			
+			声明：三范式是面试官经常要问的，所以一定要熟记于心
+			
+			设计数据库表的时候，按照以上的范式进行，可以避免表中数据的冗余，空间的浪费
+		3.第一范式
+			最核心，最重要的范式，所有表的设计都需要满足
+			必须有主键，并且每一个字段都是原子性不可再分
+			
+				学生编号 	学生姓名 	联系方式
+				--------------------------------------------
+				1001	张三	zs@gmail.com,1359999999
+				1002	李四	ls@gmail.com,13699999999
+				1001	王五	ww@163.net,13488888888
+			
+			以上是学生表，满足第一范式吗？
+				不满足，第一：没有主键。第二：联系方式可以分为邮箱地址和电话
+			
+				学生编号(PK) 		学生姓名 	邮箱地址	联系电话
+				--------------------------------------------------------
+				1001				张三	zs@gmail.com	1359999999
+				1002				李四	ls@gmail.com	13699999999
+				1001				王五	ww@163.net		13488888888
+	
+	4.第二范式：
+		建立在第一范式的基础之上，
+		要求所有的非主键字段完全依赖主键，不要产生部分依赖
+			学生编号	学生姓名	教师编号	教师姓名
+			------------------------------------------------
+			1001		张三		001			王老师
+			1002		李四		002			赵老师
+			1003		王五		001			王老师
+			1001		张三		002			赵老师
+		
+		以上是学生表，描述了学生和老师的关系：一个学生对应多个老师，一个老师对应多个学生
+			这是典型的：多对多关系。
+		
+		满足第一范式吗？
+			不满足第一范式，没有主键。
+		
+		怎么满足第一范式呢？修改
+			学生编号+教师编号(PK)	学生姓名				教师姓名
+			------------------------------------------------------
+			1001			001				张三			王老师
+			1002			002				李四			赵老师
+			1003			001				王五			王老师
+			1001			002				张三			赵老师
+		
+		学生编号 教师编号，两个字段联合做主键，复合主键（PK:学生编号+教师编号）
+		
+		经过修改之后，以上的 表满足了第一范式。但是满足第二范式吗？
+			不满足第二范式，"张三"依赖1001，"王老师"依赖001，显然产生了部分依赖
+			产生部分依赖的缺点是什么？
+				数据冗余，空间浪费。"张三"重复，"王老师"重复
+		
+		为了让以上的表满足第二范式，需要这样设计：
+			使用三张表来表示多对多的关系
+				学生表
+					学生编号(PK)		学生姓名
+					------------------------------
+					1001				张三
+					1002				李四
+					1003				王五
+					
+				教师表
+					教师编号(PK)		教师姓名
+					------------------------------
+					001					王老师
+					002					赵老师
+					
+				学生教师关系表
+					id(PK)		学生编号(FK)		教师编号(FK)
+					--------------------------------------------
+					1			1001				001
+					2			1002				002
+					3			1003				001
+					4			1001				002
+		
+		背口诀：
+			多对多怎么设计？
+				多对多，三张表，关系表两个外键。
+	
+	5.第三范式
+		建立在第二范式的基础之上，
+		要求所有的非主键字段直接依赖主键，不要产生传递依赖
+		
+		学生编号(PK)	学生姓名	班级编号	班级名称
+		-------------------------------------------------------
+		1001			张三		01			一年一班
+		1002			李四		02			一年二班
+		1003			王五		03			一年三班
+		1004			赵六		03			一年三班
+		
+		以上表满足的设计是描述班级和学生的关系，很显然是一对多关系
+			一个教室中有多个学生
+		
+		分析以上表是否满足第一范式？
+			满足，因为有主键。
+		
+		分析以上表是否满足第二范式？
+			满足第二范式，因为主键不是复合主键，没有产生部分依赖。主键是单一主键
+		
+		分析以上表是否满足第三范式？
+			第三范式要求：不要产生传递依赖
+			一年一班依赖01,01依赖1001，产生了传递依赖
+			不符合第三范式的要求，产生了数据的冗余
+		
+		那么应该怎么设计一对多呢？
+			班级表：
+				班级编号(PK)			班级名称
+				--------------------------------
+				01						一年一班
+				02						一年二班
+				03						一年三班
+			学生表：
+				学生编号(PK)	学生姓名	班级编号(FK)	
+				-----------------------------------------
+				1001			张三		01			
+				1002			李四		02			
+				1003			王五		03			
+				1004			赵六		03	
+		
+		背口诀：
+			一对多，两张表，多的表加外键。
+	
+	6.总结一下表的设计
+		一对多：
+			一对多，两张表，多的表加外键
+		多对多：
+			多对多，三张表，关系表加外键
+		一对一：
+			一对一放到一张表不就行了吗？为什么还要拆分多张表？
+			在实际的开发中，可能存在一张表字段太多，太庞大，这个时候要拆分表。
+			一对一怎么设计？
+				没有拆分表之前：一张表
+					t_user
+					id			login_name			login_pwd			real_name			email			address...
+					---------------------------------------------------------------------------------------
+					1			zhangsan			123456				张三				zhangsan@xxx.com 	bj
+					2			lisi				123					李四				lisi@qq.com			tj
+					...
+				
+				这种庞大的表，建议拆分为两张表：
+					t_login 登录信息表
+					id(PK)		login_name			login_pwd				
+					----------------------------------------------------
+					1			zhangsan			123456				
+					2			lisi				123		
+					...
+					
+					t_user 用户详细信息表
+					id(PK)		real_name			email			address...				login_id(FK+unique)
+					---------------------------------------------------------------------------------------
+					100			张三				zhangsan@xxx.com 	bj					1
+					200			李四				lisi@qq.com			tj					2
+					...
+					
+					口诀：一对一，外键唯一。
+					
+				
+				
+	
+	
+		
+			
+		
+			
