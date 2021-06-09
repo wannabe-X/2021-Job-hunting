@@ -46,6 +46,6 @@ int main()
     }
 
     cout << f[m] << endl;
-    
+
     return 0;
 }
