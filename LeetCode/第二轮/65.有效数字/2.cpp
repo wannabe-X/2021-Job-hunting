@@ -2,16 +2,15 @@
  * @Description: 65. 有效数字。使用正则匹配
  * @Author: Mr. Lee
  * @Date: 2021-06-17 09:41:00
- * @LastEditTime: 2021-06-17 10:06:03
+ * @LastEditTime: 2021-06-17 15:08:24
  * @LastEditors: Mr. Lee
  */
 
 #include <iostream>
 #include <vector>
-#include<regex>
+#include <regex>
 
 using namespace std;
-
 
 const regex pattern("\\s*([+-]?(?:\\d+\\.?\\d*|\\.\\d+)(?:[Ee][+-]?\\d+)?)\\s*");
 
