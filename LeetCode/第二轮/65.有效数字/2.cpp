@@ -2,7 +2,7 @@
  * @Description: 65. 有效数字。使用正则匹配
  * @Author: Mr. Lee
  * @Date: 2021-06-17 09:41:00
- * @LastEditTime: 2021-06-17 15:08:24
+ * @LastEditTime: 2021-06-17 15:16:20
  * @LastEditors: Mr. Lee
  */
 
@@ -21,7 +21,8 @@ bool isNumber(string str)
 
 int main()
 {
-    string s = "0";
+    string s;
+    cin >> s;
     bool ans = isNumber(s);
     cout << boolalpha << ans << endl;
 

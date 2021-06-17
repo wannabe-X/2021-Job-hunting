@@ -2,7 +2,7 @@
  * @Description: 65. 有效数字。
  * @Author: Mr. Lee
  * @Date: 2021-06-17 09:41:00
- * @LastEditTime: 2021-06-17 15:03:02
+ * @LastEditTime: 2021-06-17 15:16:36
  * @LastEditors: Mr. Lee
  */
 
@@ -157,7 +157,8 @@ bool isNumber(string s)
 
 int main()
 {
-    string s = "e1";
+    string s;
+    cin >> s;
     bool ans = isNumber(s);
     cout << boolalpha << ans << endl;
 
