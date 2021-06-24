@@ -2,7 +2,7 @@
  * @Description:  丑数
  * @Author: Mr. Lee
  * @Date: 2021-06-24 11:33:50
- * @LastEditTime: 2021-06-24 15:24:00
+ * @LastEditTime: 2021-06-24 15:39:03
  * @LastEditors: Mr. Lee
  */
 
@@ -59,7 +59,11 @@ int GetUglyNumber_Solution(int index)
 
 int main()
 {
-    int index = 0;
+    // 测试用例
+    // int index = 0;
+
+    int index;
+    cin >> index;
     int ans = GetUglyNumber_Solution(index);
     cout << ans << endl;
 
