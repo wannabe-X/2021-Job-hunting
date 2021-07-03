@@ -2,7 +2,7 @@
  * @Description: 451. 根据字符出现频率排序
  * @Author: Mr. Lee
  * @Date: 2021-07-03 12:28:06
- * @LastEditTime: 2021-07-03 12:31:55
+ * @LastEditTime: 2021-07-03 14:30:59
  * @LastEditors: Mr. Lee
  */
 
@@ -26,6 +26,8 @@ string frequencySort(string s)
         m[c]++;
     for (auto &x : m)
         v.push_back(x);
+    // 按照字符出现的顺序排序
+    // sort(v.begin(), v.end(), cmp);
     sort(v.begin(), v.end(), [](const pair<char, int> &a, const pair<char, int> &b)
          { return a.second > b.second; });
 
