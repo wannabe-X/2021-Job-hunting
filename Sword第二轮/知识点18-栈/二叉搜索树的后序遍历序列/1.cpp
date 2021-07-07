@@ -2,7 +2,7 @@
  * @Description: 二叉搜索树的后序遍历序列
  * @Author: Mr. Lee
  * @Date: 2021-07-05 00:50:33
- * @LastEditTime: 2021-07-05 00:55:39
+ * @LastEditTime: 2021-07-05 11:26:43
  * @LastEditors: Mr. Lee
  */
 
@@ -83,13 +83,6 @@ int main()
     print(p);
     // TreeNode *h = Convert(p);
 
-    // int size, idx = 0;
-    // cin >> size;
-    // vector<int> nums(size);
-    // while (cin >> nums[idx++] && idx < size)
-    //     ;
-    // TreeNode *p = creatBinarySearchTree(nums);
-    // print(p);
 
     return 0;
 }
