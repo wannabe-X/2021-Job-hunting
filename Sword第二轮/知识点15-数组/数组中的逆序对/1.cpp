@@ -1,8 +1,8 @@
 /*
- * @Description: 数组中的逆序对
+ * @Description: 数组中的逆序对。超出内存使用限制
  * @Author: Mr. Lee
  * @Date: 2021-07-01 17:25:19
- * @LastEditTime: 2021-07-01 17:49:31
+ * @LastEditTime: 2021-07-07 17:54:27
  * @LastEditors: Mr. Lee
  */
 
@@ -32,7 +32,7 @@ int InversePairs(vector<int> data)
 
 int main()
 {
-    vector<int> nums = {1,2,3,5,4};
+    vector<int> nums = {1, 2, 3, 5, 4};
     int ans = InversePairs(nums);
     cout << ans << endl;
 

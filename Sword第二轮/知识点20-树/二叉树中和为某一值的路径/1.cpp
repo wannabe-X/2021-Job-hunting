@@ -2,7 +2,7 @@
  * @Description: 二叉树中和为某一值的路径
  * @Author: Mr. Lee
  * @Date: 2021-07-06 23:54:32
- * @LastEditTime: 2021-07-07 00:03:46
+ * @LastEditTime: 2021-07-07 16:27:36
  * @LastEditors: Mr. Lee
  */
 
@@ -10,6 +10,7 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
@@ -65,24 +66,54 @@ void boardtrack(TreeNode *root, int expectNumber)
 {
     if (root == nullptr)
     {
-        // if()
+        return;
     }
+
+    tmp.push_back(root->val);
+
+    if (root->left == nullptr && root->right == nullptr)
+    {
+        if (accumulate(tmp.begin(), tmp.end(), 0) == expectNumber)
+        {
+            res.push_back(tmp);
+        }
+    }
+
+    boardtrack(root->left, expectNumber);
+    boardtrack(root->right, expectNumber);
+    tmp.pop_back();
 }
 
 vector<vector<int>> FindPath(TreeNode *root, int expectNumber)
 {
+    if (root == nullptr)
+        return res;
+    boardtrack(root, expectNumber);
+    return res;
 }
 
 int main()
 {
     int null = 0;
-    vector<int> nums = {8, 6, 10, 5, 7, 9, 11};
+    vector<int> nums = {10, 5, 12, 4, 7};
     TreeNode *pRoot;
     createTree(pRoot, nums, 0);
     // 先序遍历二叉树
     cout << "前序遍历二叉树: ";
     printTree(pRoot);
     cout << endl;
+
+    int expectNumber = 22;
+    vector<vector<int>> ans = FindPath(pRoot, expectNumber);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        for (int j = 0; j < ans[i].size(); j++)
+        {
+            cout << ans[i][j] << " ";
+        }
+
+        cout << endl;
+    }
 
     return 0;
 }
