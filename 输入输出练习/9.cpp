@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Mr. Lee
  * @Date: 2021-07-26 23:24:08
- * @LastEditTime: 2021-07-26 23:26:29
+ * @LastEditTime: 2021-07-27 17:29:22
  * @LastEditors: Mr. Lee
  */
 
@@ -20,7 +20,7 @@ int main()
     while (cin >> s)
     {
         v.push_back(s);
-        
+
         if (cin.get() == '\n')
         {
             sort(v.begin(), v.end());
@@ -28,6 +28,8 @@ int main()
             {
                 cout << x << " ";
             }
+            
+            cout << endl;
             v.clear();
         }
     }
