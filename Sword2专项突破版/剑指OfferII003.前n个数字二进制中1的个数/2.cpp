@@ -2,7 +2,7 @@
  * @Description: 剑指 Offer II 003. 前 n 个数字二进制中 1 的个数
  * @Author: Mr. Lee
  * @Date: 2021-08-12 11:25:35
- * @LastEditTime: 2021-08-12 11:44:44
+ * @LastEditTime: 2021-08-12 11:51:11
  * @LastEditors: Mr. Lee
  */
 
@@ -18,9 +18,9 @@ vector<int> countBits(int n)
     vector<int> res(n + 1);
     for (int i = 0; i <= n; i++)
     {
-        if (i & 1)
+        if (i & 1) // 奇数
             res[i] = res[i - 1] + 1;
-        else
+        else // 偶数
             res[i] = res[i >> 1];
     }
 
