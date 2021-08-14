@@ -17,7 +17,6 @@ int Add(int a, int b)
 
 int main()
 {
-    
     int N;
     cin >> N;
     int A, B;
