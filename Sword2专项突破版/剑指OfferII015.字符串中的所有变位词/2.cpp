@@ -2,11 +2,11 @@
  * @Description: 剑指 Offer II 015. 字符串中的所有变位词
  * @Author: Mr. Lee
  * @Date: 2021-08-16 21:57:02
- * @LastEditTime: 2021-08-19 10:47:15
+ * @LastEditTime: 2021-08-19 11:05:43
  * @LastEditors: Mr. Lee
  */
 
-// 超时解法
+// 滑动窗口
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -15,16 +15,34 @@ using namespace std;
 
 vector<int> findAnagrams(string s, string p)
 {
+    if (s.size() < p.size())
+        return {};
+        
     vector<int> res;
-    sort(p.begin(), p.end());
-    for (int i = 0; i < int(s.size() - p.size() + 1); i++)
+    vector<int> vs(26, 0), vp(26, 0);
+
+    for (int i = 0; i < p.size(); i++)
     {
-        string tmp = s.substr(i, p.size());
-        sort(tmp.begin(), tmp.end());
-        if (tmp == p)
+        vs[s[i] - 'a']++;
+        vp[p[i] - 'a']++;
+    }
+
+    int left = 0, right = p.size();
+
+    while (right < s.size())
+    {
+        if (vs == vp)
         {
-            res.push_back(i);
+            res.push_back(left);
         }
+
+        vs[s[right++] - 'a']++;
+        vs[s[left++] - 'a']--;
+    }
+
+    if (vs == vp)
+    {
+        res.push_back(left);
     }
 
     return res;

@@ -80,6 +80,7 @@ public:
         }
     }
 
+private:
     unordered_map<int, node *> map;
     int capacity;
     node *head, *tail;
