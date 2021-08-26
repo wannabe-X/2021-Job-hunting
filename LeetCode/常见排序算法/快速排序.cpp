@@ -2,7 +2,7 @@
  * @Description: 快速排序
  * @Author: Mr. Lee
  * @Date: 2021-07-22 22:05:31
- * @LastEditTime: 2021-07-22 22:34:37
+ * @LastEditTime: 2021-08-26 17:19:28
  * @LastEditors: Mr. Lee
  */
 
@@ -18,6 +18,7 @@ void QuickSort(vector<int> &nums, int low, int high)
 
     int first = low, last = high;
     int pivot = nums[low]; // 基准
+    
     while (first < last)
     {
         while (first < last && nums[last] >= pivot)
