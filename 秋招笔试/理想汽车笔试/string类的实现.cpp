@@ -2,19 +2,19 @@
  * @Description: 
  * @Author: Mr. Lee
  * @Date: 2021-08-29 21:38:43
- * @LastEditTime: 2021-08-29 22:46:29
+ * @LastEditTime: 2021-08-29 23:06:34
  * @LastEditors: Mr. Lee
  */
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <assert.h>
 
 using namespace std;
 
 char *strcpy1(char *strDest, char *strSrc)
 {
-    if (strDest == NULL || strSrc == NULL)
-        throw "Invalid arguments";
+    assert(strDest && strSrc);
 
     char *strDestCpy = strDest;
     while ((*strDest++ = *strSrc++) != '\0')
@@ -24,17 +24,15 @@ char *strcpy1(char *strDest, char *strSrc)
 
 string strcpy1(string strDest, string strSrc)
 {
-    if (strSrc.empty() || strDest.empty())
-    {
-        return strSrc;
-    }
+    assert(strDest.size() && strSrc.size());
 
     strDest.resize(strSrc.size());
     for (int i = 0; i < strSrc.size(); i++)
     {
         strDest[i] = strSrc[i];
     }
-
+    
+    strDest = strDest + '\0';
     return strDest;
 }
 
