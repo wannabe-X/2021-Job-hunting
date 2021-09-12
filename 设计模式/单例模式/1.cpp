@@ -2,7 +2,7 @@
  * @Description: 单例模式
  * @Author: Mr. Lee
  * @Date: 2021-08-17 23:12:09
- * @LastEditTime: 2021-08-17 23:21:55
+ * @LastEditTime: 2021-09-12 16:11:16
  * @LastEditors: Mr. Lee
  */
 #include <iostream>
@@ -23,7 +23,7 @@ private:
     Singleton_lazy() {}
 
 public:
-    Singleton_lazy *getInstance()
+    static Singleton_lazy *getInstance()
     {
         if (pSingleton == nullptr)
             pSingleton = new Singleton_lazy;
@@ -47,7 +47,7 @@ private:
     }
 
 public:
-    Singleton_hungry *getINstance()
+    static Singleton_hungry *getINstance()
     {
         return pSingleton;
     }
