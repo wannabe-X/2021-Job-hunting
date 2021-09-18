@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Mr. Lee
  * @Date: 2021-09-17 19:37:39
- * @LastEditTime: 2021-09-17 21:55:33
+ * @LastEditTime: 2021-09-17 21:46:13
  * @LastEditors: Mr. Lee
  */
 #include <iostream>
@@ -14,7 +14,7 @@ using namespace std;
 int func(vector<int> &v, vector<int> &v1)
 {
     int res = 0;
-    int right=0, left=0;
+    int right, left;
     int pivot = v1[v[1]];
 
     for (int i = v[1] + 1; i < v[0]; i++)
@@ -26,7 +26,7 @@ int func(vector<int> &v, vector<int> &v1)
         }
     }
 
-    for (int i = v[1] - 1; i > 0; i--)
+    for (int i = v[1] - 1; i > -1; i--)
     {
         if (v1[i] >= pivot)
         {
@@ -43,7 +43,7 @@ int func(vector<int> &v, vector<int> &v1)
 
     for (int i = left; i > 0; i--)
     {
-        if (v1[i] < v1[i - 1])
+        if (v1[i] > v1[i - 1])
             res++;
     }
 
