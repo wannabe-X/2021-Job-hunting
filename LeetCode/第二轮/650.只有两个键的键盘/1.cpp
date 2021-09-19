@@ -2,9 +2,10 @@
  * @Description: 650. 只有两个键的键盘
  * @Author: Mr. Lee
  * @Date: 2021-09-19 11:22:30
- * @LastEditTime: 2021-09-19 11:33:20
+ * @LastEditTime: 2021-09-19 11:37:32
  * @LastEditors: Mr. Lee
  */
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -34,6 +35,6 @@ int main(void)
     int n = 3;
     int ans = minSteps(n);
     cout << ans << endl;
-    
+
     return 0;
 }
