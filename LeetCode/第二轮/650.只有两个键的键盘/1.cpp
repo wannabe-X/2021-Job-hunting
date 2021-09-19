@@ -11,12 +11,12 @@
 
 using namespace std;
 
-    int minSteps(int n) {
-
-    }
+int minSteps(int n)
+{
+}
 
 int main(void)
 {
-    int n=3;
+    int n = 3;
     return 0;
 }
