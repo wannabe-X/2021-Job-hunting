@@ -49,7 +49,7 @@
 
 using namespace std;
 
-int func(int n, int m, int x, int y, string str, vector<vector<int>> nums)
+int func(int n, int m, int x, int y, string str, vector<vector<int>> &nums)
 {
     int i = 1, j = 1;
     int res = 0;
