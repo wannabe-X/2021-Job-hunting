@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Mr. Lee
  * @Date: 2021-09-01 18:40:39
- * @LastEditTime: 2021-09-23 21:50:30
+ * @LastEditTime: 2021-09-23 21:58:05
  * @LastEditors: Mr. Lee
  */
 
@@ -80,7 +80,7 @@ int func(int n, int m, int x, int y, string str, vector<vector<int>> nums)
         if (i == 0 || i == n + 1 || j == 0 || j == m + 1)
         {
             res += y;
-            
+
             if (i == 0)
                 i++;
             else if (i == n + 1)
@@ -107,7 +107,7 @@ int func(int n, int m, int x, int y, string str, vector<vector<int>> nums)
         {
             res += max(nums[i][j], nums[i + 1][j]);
             i++;
-            if (i < n && nums[i][j] == -1)
+            if (i < n + 1 && nums[i][j] == -1)
             {
                 i--;
                 res += y;
@@ -117,7 +117,7 @@ int func(int n, int m, int x, int y, string str, vector<vector<int>> nums)
         {
             res += max(nums[i][j], nums[i][j + 1]);
             j++;
-            if (j < n && nums[i][j] == -1)
+            if (j < m + 1 && nums[i][j] == -1)
             {
                 j--;
                 res += y;
