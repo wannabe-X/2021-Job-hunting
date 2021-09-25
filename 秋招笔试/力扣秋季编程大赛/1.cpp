@@ -2,7 +2,7 @@
  * @Description: 2. 自行车炫技赛场
  * @Author: Mr. Lee
  * @Date: 2021-09-25 14:59:53
- * @LastEditTime: 2021-09-25 17:51:10
+ * @LastEditTime: 2021-09-25 17:59:36
  * @LastEditors: Mr. Lee
  */
 
@@ -70,5 +70,6 @@ int main(void)
             cout << y << " ";
         cout << endl;
     }
+    
     return 0;
 }
