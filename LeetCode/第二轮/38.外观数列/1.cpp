@@ -2,7 +2,7 @@
  * @Description: 38. 外观数列
  * @Author: Mr. Lee
  * @Date: 2021-10-15 11:43:20
- * @LastEditTime: 2021-10-15 21:39:59
+ * @LastEditTime: 2021-10-15 22:21:49
  * @LastEditors: Mr. Lee
  */
 #include <iostream>
@@ -40,7 +40,7 @@ string countAndSay(int n)
 
 int main(void)
 {
-    int n = 5;
+    int n = 30;
     string ans = countAndSay(n);
     cout << ans << endl;
 
