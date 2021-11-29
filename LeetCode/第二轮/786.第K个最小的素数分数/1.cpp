@@ -2,7 +2,7 @@
  * @Description: 786.第K个最小的素数分数
  * @Author: Mr. Lee
  * @Date: 2021-11-29 00:44:09
- * @LastEditTime: 2021-11-29 00:50:20
+ * @LastEditTime: 2021-11-29 09:47:41
  * @LastEditors: Mr. Lee
  */
 #include <iostream>
@@ -10,6 +10,11 @@
 #include <algorithm>
 
 using namespace std;
+
+bool comp(const pair<int, int> &x, const pair<int, int> &y)
+{
+    return x.first * y.second < y.first * x.second;
+}
 
 vector<int> kthSmallestPrimeFraction(vector<int> &arr, int k)
 {
@@ -20,8 +25,10 @@ vector<int> kthSmallestPrimeFraction(vector<int> &arr, int k)
             v.emplace_back(arr[i], arr[j]);
     }
 
-    sort(v.begin(), v.end(), [](const pair<int, int> &x, const pair<int, int> &y)
-         { return x.first * y.second < y.first * x.second; });
+    sort(v.begin(), v.end(), comp);
+
+    // sort(v.begin(), v.end(), [](const pair<int, int> &x, const pair<int, int> &y)
+    //      { return x.first * y.second < y.first * x.second; });
 
     return {v[k - 1].first, v[k - 1].second};
 }
