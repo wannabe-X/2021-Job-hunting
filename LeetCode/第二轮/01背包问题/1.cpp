@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: Mr. Lee
+ * @Date: 2021-06-27 00:45:32
+ * @LastEditTime: 2021-12-10 10:42:02
+ * @LastEditors: Mr. Lee
+ */
 #include <iostream>
 #include <vector>
 
@@ -43,6 +50,6 @@ int main()
     cin >> package; // 背包的容量
     int ans = maxValue(value_weight, package);
     cout << ans << endl;
-    
+
     return 0;
 }
