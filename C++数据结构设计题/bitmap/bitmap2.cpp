@@ -18,6 +18,7 @@ public:
     {
         v.resize(range / 32 + 1);
     }
+    
     ~Bitmap() {}
 
     void set(int value)
