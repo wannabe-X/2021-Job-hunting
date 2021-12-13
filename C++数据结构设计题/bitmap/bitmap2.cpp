@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Mr. Lee
  * @Date: 2021-12-13 10:16:20
- * @LastEditTime: 2021-12-13 10:36:26
+ * @LastEditTime: 2021-12-13 11:47:19
  * @LastEditors: Mr. Lee
  */
 
@@ -50,6 +50,7 @@ int main()
     Bitmap bit_map(20);
     for (int i = 0; i < 20; i += 2)
         bit_map.set(i);
+    
     for (int i = 0; i < 20; i++)
         if (bit_map.contains(i))
         {
@@ -65,5 +66,6 @@ int main()
             cout << i << " :exist!" << endl;
         else
             cout << i << " :not exist!" << endl;
+    
     return 0;
 }
