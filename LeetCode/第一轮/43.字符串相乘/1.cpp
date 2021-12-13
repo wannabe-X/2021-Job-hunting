@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: Mr. Lee
+ * @Date: 2021-06-27 00:45:27
+ * @LastEditTime: 2021-12-13 11:06:40
+ * @LastEditors: Mr. Lee
+ */
 #include <iostream>
 #include <vector>
 
@@ -34,7 +41,8 @@ string multiply(string num1, string num2)
 
 int main(void)
 {
-    string num1 = "123", num2 = "456";
+    string num1, num2;
+    cin >> num1 >> num2;
     string ans = multiply(num1, num2);
     cout << ans << endl;
 }
