@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Mr. Lee
  * @Date: 2021-12-13 17:03:33
- * @LastEditTime: 2021-12-13 17:19:42
+ * @LastEditTime: 2021-12-16 16:36:49
  * @LastEditors: Mr. Lee
  */
 #include <bits/stdc++.h>
@@ -67,17 +67,18 @@ public:
         end = new_end;
     }
 
-    // 
+    // push_back()操作 首先判断是否需要扩容
     void push_back(int value)
     {
         if (tail == end)
         {
-            size_t new_capacity = (end == nullptr ? 3 : capacity() * 2);
+            size_t new_capacity = (end == nullptr ? 1 : capacity() * 2);
             expand(new_capacity);
         }
         *tail++ = value;
     }
     
+    // pop_back() 操作
     void pop_back()
     {
         if (tail != head && tail != nullptr)
@@ -85,9 +86,11 @@ public:
             --tail;
         }
     }
+
+    // 
     int &operator[](int index)
     {
-        return *(head + index);
+        return *(head + index); // 地址偏移,找到对应元素的地址,之后解引用取出该元素即可
     }
 };
 
