@@ -5,8 +5,7 @@
 #include<mutex>
 #include<list>
 #include<functional>
-
-#include<functional>
+#include"CELLSemaphore.hpp"
 
 //执行任务的服务类型
 class CellTaskServer 
@@ -22,6 +21,7 @@ private:
 	//改变数据缓冲区时需要加锁
 	std::mutex _mutex;
 	bool _isRun = false;
+	CELLSemaphore _sem;
 
 public:
 	//添加任务
@@ -41,8 +41,14 @@ public:
 
 	void Close()
 	{
-		printf("CellTaskServer<%d>.Close 1\n", serverId);
-		_isRun = false;
+
+		printf("CellTaskServer<%d>.Close begin\n", serverId);
+		if (_isRun)
+		{
+			_isRun = false;
+			_sem.wait();
+		}
+		printf("CellTaskServer<%d>.Close end\n", serverId);
 	}
 
 protected:
@@ -77,7 +83,7 @@ protected:
 			_tasks.clear();
 		}
 		printf("CellTaskServer<%d>.OnRun 1\n", serverId);
-
+		_sem.wakeup();
 	}
 };
 #endif // !_CELL_TASK_H_

@@ -4,6 +4,7 @@
 #include"CELL.hpp"
 #include"INetEvent.hpp"
 #include"CELLClient.hpp"
+#include"CELLSemaphore.hpp"
 
 #include<vector>
 #include<map>
@@ -22,7 +23,9 @@ public:
 
 	~CellServer()
 	{
+		printf("CellServer<%d>.~CellServer exit begin\n", _id);
 		Close();
+		printf("CellServer<%d>.~CellServer exit end\n", _id);
 	}
 
 	void setEventObj(INetEvent* event)
@@ -33,22 +36,14 @@ public:
 	//关闭Socket
 	void Close()
 	{
-		printf("CellServer<%d>.Close 1\n", _id);
-		// 
-		_taskServer.Close();
-		for (auto iter : _clients)
+		printf("CellServer<%d>.Close begin\n", _id);
+		if (_isRun)
 		{
-			delete iter.second;
+			_taskServer.Close();
+			_isRun = false;
+			_sem.wait();
 		}
-		_clients.clear();
-
-		for (auto iter : _clientsBuff)
-		{
-			delete iter;
-		}
-		_clientsBuff.clear();
-
-		printf("CellServer<%d>.Close 2\n", _id);
+		printf("CellServer<%d>.Close end\n", _id);
 	}
 
 	//处理网络消息
@@ -122,6 +117,8 @@ public:
 			ReadData(fdRead);
 			checkTime();
 		}
+		ClearClients();
+		_sem.wakeup();
 	}
 
 	// 检查
@@ -282,6 +279,21 @@ public:
 	//			delete header;
 	//		});
 	//}
+private:
+	void ClearClients()
+	{
+		for (auto iter : _clients)
+		{
+			delete iter.second;
+		}
+		_clients.clear();
+
+		for (auto iter : _clientsBuff)
+		{
+			delete iter;
+		}
+		_clientsBuff.clear();
+	}
 
 private:
 	//正式客户队列
@@ -299,6 +311,7 @@ private:
 	fd_set _fdRead_bak;
 	SOCKET _maxSock;
 	time_t _old_time = CELLTime::getNowInMilliSec();
+	CELLSemaphore _sem;
 	int _id = -1;
 	//客户列表是否有变化
 	bool _clients_change;

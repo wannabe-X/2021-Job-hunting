@@ -3,7 +3,7 @@
 
 bool g_bRun = true;
 void cmdThread()
-{//
+{
 	while (true)
 	{
 		char cmdBuf[256] = {};
@@ -86,7 +86,6 @@ private:
 
 int main()
 {
-
 	MyServer server;
 	server.InitSocket();
 	server.Bind(nullptr, 4567);
@@ -104,6 +103,14 @@ int main()
 	}
 	server.Close();
 	printf("ÒÑÍË³ö¡£\n");
-	getchar();
+
+	//CellTaskServer task;
+	//task.Start();
+	//Sleep(100);
+	//task.Close();
+
+	while (true)
+		Sleep(1);
+
 	return 0;
 }
