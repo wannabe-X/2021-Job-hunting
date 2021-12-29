@@ -2,7 +2,7 @@
 #define _I_NET_EVENT_HPP_
 
 #include"CELL.hpp"
-#include"CELLClient.hpp"
+#include"CellClient.hpp"
 //×Ô¶¨Òå
 class CellServer;
 

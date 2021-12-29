@@ -23,9 +23,9 @@ void cmdThread()
 }
 
 //客户端数量
-const int cCount = 20;
+const int cCount = 10;
 //发送线程数量
-const int tCount = 4;
+const int tCount = 1;
 //客户端数组
 EasyTcpClient* client[cCount];
 std::atomic_int sendCount = 0;
@@ -33,10 +33,13 @@ std::atomic_int readyCount = 0;
 
 void recvThread(int begin, int end)
 {
+	CELLTimestamp t;
 	while (g_bRun)
 	{
 		for (int n = begin; n < end; n++)
 		{
+			//if (t.getElapsedSecond() >= 3.0 && n == begin)
+			//	continue;
 			client[n]->OnRun();
 		}
 	}
@@ -91,8 +94,8 @@ void sendThread(int id)
 				sendCount++;
 			}
 		}
-		//std::chrono::milliseconds t(100);
-		//std::this_thread::sleep_for(t);
+		std::chrono::milliseconds t(1);
+		std::this_thread::sleep_for(t);
 	}
 
 	for (int n = begin; n < end; n++)
@@ -113,7 +116,7 @@ int main()
 	//启动发送线程
 	for (int n = 0; n < tCount; n++)
 	{
-		std::thread t1(sendThread,n+1);
+		std::thread t1(sendThread, n + 1);
 		t1.detach();
 	}
 

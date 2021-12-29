@@ -3,7 +3,7 @@
 
 //SOCKET
 #ifdef _WIN32
-#define FD_SETSIZE      2506
+#define FD_SETSIZE 10006
 #define WIN32_LEAN_AND_MEAN
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include<windows.h>
@@ -27,8 +27,8 @@
 
 //缓冲区最小单元大小
 #ifndef RECV_BUFF_SZIE
-#define RECV_BUFF_SZIE 10240
-#define SEND_BUFF_SZIE RECV_BUFF_SZIE
+#define RECV_BUFF_SZIE 1024
+#define SEND_BUFF_SZIE 10240000
 #endif // !RECV_BUFF_SZIE
 
 #endif // !_CELL_HPP_
