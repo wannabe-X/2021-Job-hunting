@@ -23,9 +23,9 @@ void cmdThread()
 }
 
 //客户端数量
-const int cCount = 10;
+const int cCount = 10000;
 //发送线程数量
-const int tCount = 1;
+const int tCount = 4;
 //客户端数组
 EasyTcpClient* client[cCount];
 std::atomic_int sendCount = 0;
@@ -38,8 +38,8 @@ void recvThread(int begin, int end)
 	{
 		for (int n = begin; n < end; n++)
 		{
-			//if (t.getElapsedSecond() >= 3.0 && n == begin)
-			//	continue;
+			if (t.getElapsedSecond() >= 3.0 && n == begin)
+				continue;
 			client[n]->OnRun();
 		}
 	}

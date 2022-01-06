@@ -2,18 +2,18 @@
 #define _EasyTcpClient_hpp_
 
 #ifdef _WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include<windows.h>
-	#include<WinSock2.h>
-	#pragma comment(lib,"ws2_32.lib")
+#define WIN32_LEAN_AND_MEAN
+#include<windows.h>
+#include<WinSock2.h>
+#pragma comment(lib,"ws2_32.lib")
 #else
-	#include<unistd.h> //uni std
-	#include<arpa/inet.h>
-	#include<string.h>
+#include<unistd.h> //uni std
+#include<arpa/inet.h>
+#include<string.h>
 
-	#define SOCKET int
-	#define INVALID_SOCKET  (SOCKET)(~0)
-	#define SOCKET_ERROR            (-1)
+#define SOCKET int
+#define INVALID_SOCKET  (SOCKET)(~0)
+#define SOCKET_ERROR            (-1)
 #endif
 #include <stdio.h>
 #include "MessageHeader.hpp"
@@ -28,7 +28,7 @@ public:
 		_sock = INVALID_SOCKET;
 		_isConnect = false;
 	}
-	
+
 	virtual ~EasyTcpClient()
 	{
 		Close();
@@ -58,7 +58,7 @@ public:
 	}
 
 	//连接服务器
-	int Connect(const char* ip,unsigned short port)
+	int Connect(const char* ip, unsigned short port)
 	{
 		if (INVALID_SOCKET == _sock)
 		{
@@ -77,7 +77,7 @@ public:
 		int ret = connect(_sock, (sockaddr*)&_sin, sizeof(sockaddr_in));
 		if (SOCKET_ERROR == ret)
 		{
-			printf("<socket=%d>错误，连接服务器<%s:%d>失败...\n",_sock, ip, port);
+			printf("<socket=%d>错误，连接服务器<%s:%d>失败...\n", _sock, ip, port);
 		}
 		else {
 			_isConnect = true;
@@ -112,7 +112,7 @@ public:
 			FD_ZERO(&fdReads);
 			FD_SET(_sock, &fdReads);
 			timeval t = { 0,0 };
-			int ret = select(_sock + 1, &fdReads, 0, 0, &t); 
+			int ret = select(_sock + 1, &fdReads, 0, 0, &t);
 			if (ret < 0)
 			{
 				printf("<socket=%d>select任务结束1\n", _sock);
@@ -156,7 +156,7 @@ public:
 	{
 		// 5 接收数据
 		char* szRecv = _szMsgBuf + _lastPos;
-		int nLen = (int)recv(cSock, szRecv, (RECV_BUFF_SZIE) - _lastPos, 0);
+		int nLen = (int)recv(cSock, szRecv, (RECV_BUFF_SZIE)-_lastPos, 0);
 		//printf("nLen=%d\n", nLen);
 		if (nLen <= 0)
 		{
@@ -197,39 +197,39 @@ public:
 	{
 		switch (header->cmd)
 		{
-			case CMD_LOGIN_RESULT:
-			{
-			
-				netmsg_LoginR* login = (netmsg_LoginR*)header;
-				//printf("<socket=%d>收到服务端消息：CMD_LOGIN_RESULT,数据长度：%d\n", _sock, login->dataLength);
-			}
-			break;
-			case CMD_LOGOUT_RESULT:
-			{
-				netmsg_LogoutR* logout = (netmsg_LogoutR*)header;
-				//printf("<socket=%d>收到服务端消息：CMD_LOGOUT_RESULT,数据长度：%d\n", _sock, logout->dataLength);
-			}
-			break;
-			case CMD_NEW_USER_JOIN:
-			{
-				netmsg_NewUserJoin* userJoin = (netmsg_NewUserJoin*)header;
-				//printf("<socket=%d>收到服务端消息：CMD_NEW_USER_JOIN,数据长度：%d\n", _sock, userJoin->dataLength);
-			}
-			break;
-			case CMD_ERROR:
-			{
-				printf("<socket=%d>收到服务端消息：CMD_ERROR,数据长度：%d\n", _sock, header->dataLength);
-			}
-			break;
-			default:
-			{
-				printf("<socket=%d>收到未定义消息,数据长度：%d\n", _sock, header->dataLength);
-			}
+		case CMD_LOGIN_RESULT:
+		{
+
+			netmsg_LoginR* login = (netmsg_LoginR*)header;
+			//printf("<socket=%d>收到服务端消息：CMD_LOGIN_RESULT,数据长度：%d\n", _sock, login->dataLength);
+		}
+		break;
+		case CMD_LOGOUT_RESULT:
+		{
+			netmsg_LogoutR* logout = (netmsg_LogoutR*)header;
+			//printf("<socket=%d>收到服务端消息：CMD_LOGOUT_RESULT,数据长度：%d\n", _sock, logout->dataLength);
+		}
+		break;
+		case CMD_NEW_USER_JOIN:
+		{
+			netmsg_NewUserJoin* userJoin = (netmsg_NewUserJoin*)header;
+			//printf("<socket=%d>收到服务端消息：CMD_NEW_USER_JOIN,数据长度：%d\n", _sock, userJoin->dataLength);
+		}
+		break;
+		case CMD_ERROR:
+		{
+			printf("<socket=%d>收到服务端消息：CMD_ERROR,数据长度：%d\n", _sock, header->dataLength);
+		}
+		break;
+		default:
+		{
+			printf("<socket=%d>收到未定义消息,数据长度：%d\n", _sock, header->dataLength);
+		}
 		}
 	}
 
 	//发送数据
-	int SendData(netmsg_DataHeader* header,int nLen)
+	int SendData(netmsg_DataHeader* header, int nLen)
 	{
 		int ret = SOCKET_ERROR;
 		if (isRun() && header)
