@@ -71,9 +71,9 @@ int main()
 {
 	CELLLog::Instance().setLogPath("serverLog.txt","w");
 	MyServer server;
-	server.InitSocket();
-	server.Bind(nullptr, 4567);
-	server.Listen(64);
+	server.InitSocket(); // 初始化一个服务器端socket
+	server.Bind(nullptr, 4567); // 绑定ip和端口
+	server.Listen(64); // 使服务器端的socket变为监听状态
 	server.Start(4);
 
 	//在主线程中等待用户输入命令

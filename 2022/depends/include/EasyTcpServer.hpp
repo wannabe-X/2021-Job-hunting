@@ -50,7 +50,7 @@ public:
 			CELLLog::Info("warning, initSocket close old socket<%d>...\n", (int)_sock);
 			Close();
 		}
-		_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); // 创建服务端socket
 		if (INVALID_SOCKET == _sock)
 		{
 			CELLLog::Info("error, create socket failed...\n");

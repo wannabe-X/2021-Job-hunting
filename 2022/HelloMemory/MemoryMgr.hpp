@@ -160,7 +160,7 @@ public:
 	{
 		//8 4   61/8=7  61%8=5
 		const size_t n = sizeof(void*);
-		//(7*8)+8 
+		//(7*8)+8
 		_nSzie = (nSzie / n) * n + (nSzie % n ? n : 0);
 		_nBlockSzie = nBlockSzie;
 	}

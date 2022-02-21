@@ -91,8 +91,8 @@ void sendThread(int id)
 	CELLLog::Info("thread<%d>,start\n", id);
 	//4个线程 ID 1~4
 	int c = cCount / tCount;
-	int begin = (id - 1)*c;
-	int end = id*c;
+	int begin = (id - 1) * c;
+	int end = id * c;
 
 	for (int n = begin; n < end; n++)
 	{

@@ -54,7 +54,7 @@ public:
 					_clients[pClient->sockfd()] = pClient;
 					pClient->serverId = _id;
 					if (_pNetEvent)
-						_pNetEvent->OnNetJoin(pClient);
+						_pNetEvent->OnNetJoin(pClient); // 客户端数量加1
 				}
 				_clientsBuff.clear();
 				_clients_change = true;
@@ -142,6 +142,7 @@ public:
 				if (_pNetEvent)
 					_pNetEvent->OnNetLeave(iter->second);
 				_clients_change = true;
+				// 防止迭代器失效
 				delete iter->second;
 				auto iterOld = iter;
 				iter++;
