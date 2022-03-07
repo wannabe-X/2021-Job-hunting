@@ -2,7 +2,7 @@
  * @Description: 504. 七进制数
  * @Author: Mr. Lee
  * @Date: 2022-03-07 14:59:27
- * @LastEditTime: 2022-03-07 15:09:29
+ * @LastEditTime: 2022-03-07 15:11:44
  * @LastEditors: Mr. Lee
  */
 #include <iostream>
