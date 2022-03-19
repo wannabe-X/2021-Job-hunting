@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Mr. Lee
  * @Date: 2022-03-19 18:58:21
- * @LastEditTime: 2022-03-19 19:44:45
+ * @LastEditTime: 2022-03-19 19:37:58
  * @LastEditors: Mr. Lee
  */
 #include <iostream>
@@ -14,17 +14,18 @@ using namespace std;
 
 vector<int> func(vector<int> nums)
 {
-    vector<int> res;
+    vector<int> res(nums.size());
+    int idx = 0;
     for (int i = 0; i < nums.size(); i++)
     {
-        if (nums[i] % 2 == 0)
-            res.push_back(nums[i]);
+        if (nums[i] & 1 == 0)
+            res[idx++] = nums[i];
     }
 
     for (int i = 0; i < nums.size(); i++)
     {
-        if (nums[i] % 2 == 1)
-            res.push_back(nums[i]);
+        if (nums[i] & 1 == 1)
+            res[idx++] = nums[i];
     }
 
     return res;
